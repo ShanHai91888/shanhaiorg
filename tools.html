@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>常用工具 | shanhai.org</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-sans/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-mono/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+                    },
+                    colors: {
+                        brand: '#A14041',
+                        surface: '#fafafa'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: white;
+            color: #000000;
+        }
+
+        /* 隐藏滚动条 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 粗野主义表格样式 */
+        .brutalist-table { border-collapse: collapse; width: 100%; border-top: 2px solid black; }
+        .brutalist-table th, .brutalist-table td { 
+            border: 1px solid black; 
+            padding: 12px 16px; 
+            text-align: left; 
+        }
+        .brutalist-table th { background-color: #fafafa; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; }
+
+        /* 筛选器激活状态 */
+        .filter-btn.active {
+            background-color: black;
+            color: white;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border: 1px solid black;
+            margin-right: 4px;
+            background-color: #f5f5f5;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased pb-24">
+
+    <main class="mx-auto max-w-6xl px-6 py-12 md:py-20">
+        
+        <div class="mb-12">
+            <div class="flex items-center justify-between font-mono text-xs mb-6 text-neutral-400">
+                <span>SHANHAI_SYSTEM // TOOLS_DATA</span>
+                <a href="index.html" class="border border-black px-3 py-1 text-black hover:bg-black hover:text-white transition-all">返回主页</a>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">常用工具</h1>
+            <p class="text-neutral-500 text-lg">工具集已精简分类为 Web3 链上分析与博彩套利执行。</p>
+        </div>
+
+        <div class="border-2 border-black p-6 mb-12 bg-surface space-y-6">
+            <div class="flex flex-wrap gap-2 items-center">
+                <span class="font-mono text-xs font-bold mr-2 uppercase text-neutral-400">分类筛选:</span>
+                <button class="filter-btn active border border-black px-4 py-1.5 text-xs font-bold hover:bg-black hover:text-white transition-all" onclick="filterCategory('全部', this)">全部显示</button>
+                <button class="filter-btn border border-black px-4 py-1.5 text-xs font-bold hover:bg-black hover:text-white transition-all" onclick="filterCategory('Web3', this)">Web3</button>
+                <button class="filter-btn border border-black px-4 py-1.5 text-xs font-bold hover:bg-black hover:text-white transition-all" onclick="filterCategory('博彩类', this)">博彩类</button>
+            </div>
+
+            <div class="relative max-w-md">
+                <input type="text" id="toolSearch" placeholder="按工具或功能名称搜索..." 
+                    class="w-full border-2 border-black px-4 py-3 outline-none focus:bg-white transition-colors font-medium"
+                    oninput="handleSearch()">
+                <span class="absolute right-4 top-3.5 text-xl">🔍</span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto no-scrollbar border-b-2 border-black">
+            <table class="brutalist-table" id="toolsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 25%">工具名称</th>
+                        <th style="width: 20%">所属分类</th>
+                        <th style="width: 15%">收费模式</th>
+                        <th style="width: 40%">功能描述 / 链接</th>
+                    </tr>
+                </thead>
+                <tbody class="font-medium">
+                    <tr class="tool-row" data-name="打水计算器" data-cat="博彩类" data-cost="核心工具">
+                        <td>打水计算器</td>
+                        <td><span class="tag">博彩类</span></td>
+                        <td><span class="text-xs opacity-50">核心工具</span></td>
+                        <td><a href="jisuanqi.html" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">对冲本金分配与收益精算 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="Python 自动化架构" data-cat="博彩类" data-cost="核心组件">
+                        <td>Python 自动化架构</td>
+                        <td><span class="tag">博彩类</span></td>
+                        <td><span class="text-xs opacity-50">核心组件</span></td>
+                        <td class="text-sm text-neutral-600">基于 Selenium 实现的全自动对冲执行环境。</td>
+                    </tr>
+                    <tr class="tool-row" data-name="赔率精算分析仪" data-cat="博彩类" data-cost="核心组件">
+                        <td>赔率精算分析仪</td>
+                        <td><span class="tag">博彩类</span></td>
+                        <td><span class="text-xs opacity-50">核心组件</span></td>
+                        <td class="text-sm text-neutral-600">识别市场定价偏差，正期望值(EV)捕获模型。</td>
+                    </tr>
+                    <tr class="tool-row" data-name="自定义接口终端" data-cat="博彩类" data-cost="核心组件">
+                        <td>自定义接口终端</td>
+                        <td><span class="tag">博彩类</span></td>
+                        <td><span class="text-xs opacity-50">核心组件</span></td>
+                        <td class="text-sm text-neutral-600">毫秒级统一资产管理与多平台数据聚合。</td>
+                    </tr>
+
+                    <tr class="tool-row" data-name="Arkham" data-cat="Web3" data-cost="免费">
+                        <td>Arkham</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">免费</span></td>
+                        <td><a href="https://auth.arkm.com/register?ref=Aiaptx" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">地址监控与可视化分析 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="Nansen" data-cat="Web3" data-cost="部分付费">
+                        <td>Nansen</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">部分付费</span></td>
+                        <td><a href="https://nsn.ai/aiaptx" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">专业级链上数据洞察 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="Hyperdash" data-cat="Web3" data-cost="免费">
+                        <td>Hyperdash</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">免费</span></td>
+                        <td><a href="https://hyperdash.com/join/aiaptx" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">Hyperliquid 专用面板 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="GMGN" data-cat="Web3" data-cost="免费">
+                        <td>GMGN</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">免费</span></td>
+                        <td><a href="https://gmgn.ai/r/0ZhKy06I?chain=bsc" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">多链代币监控与追踪 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="MetaSleuth" data-cat="Web3" data-cost="付费">
+                        <td>MetaSleuth</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">付费</span></td>
+                        <td><a href="https://metasleuth.io/" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">深度资金流可视化追踪 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="TradingView" data-cat="Web3" data-cost="部分付费">
+                        <td>TradingView</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">部分付费</span></td>
+                        <td><a href="https://www.tradingview.com/" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">全市场技术分析 K 线 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="DeFILama" data-cat="Web3" data-cost="免费">
+                        <td>DeFILama</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">免费</span></td>
+                        <td><a href="https://defillama.com/" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">宏观 TVL 与协议数据 ↗</a></td>
+                    </tr>
+                    <tr class="tool-row" data-name="Ultra Sound Money" data-cat="Web3" data-cost="免费">
+                        <td>Ultra Sound Money</td>
+                        <td><span class="tag">Web3</span></td>
+                        <td><span class="text-xs opacity-50">免费</span></td>
+                        <td><a href="https://ultrasound.money/" target="_blank" class="hover:underline font-mono text-sm text-neutral-900">以太坊 Gas 与销毁监控 ↗</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <script>
+        let currentCategory = '全部';
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+
+        function handleSearch() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('toolSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.tool-row');
+
+            rows.forEach(row => {
+                const name = row.getAttribute('data-name').toLowerCase();
+                const cats = row.getAttribute('data-cat');
+                
+                const matchesSearch = name.includes(searchTerm);
+                const matchesCat = currentCategory === '全部' || cats.includes(currentCategory);
+
+                if (matchesSearch && matchesCat) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

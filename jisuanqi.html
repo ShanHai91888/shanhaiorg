@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对冲助手-大字增强版</title>
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --pri: #3b82f6;
+            --suc: #10b981;
+            --dan: #ef4444;
+            --txt: #1e293b;
+            --sub: #64748b;
+            --bd: #e2e8f0;
+        }
+
+        body { 
+            margin: 0; background: var(--bg); 
+            font-family: 'PingFang SC', -apple-system, sans-serif;
+            color: var(--txt);
+        }
+
+        #ultra-nano-calc {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            width: 320px; /* 宽度略微增加以适应大字 */
+            background: var(--card);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--bd);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 6px 12px;
+            background: #fff;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title { font-weight: 800; font-size: 13px; color: var(--pri); }
+
+        .scroll-area { padding: 10px; overflow-y: auto; }
+
+        /* A站区 */
+        .card-a {
+            background: #f8fafc;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .row { display: flex; gap: 8px; align-items: center; }
+        .col { flex: 1; display: flex; align-items: center; gap: 6px; }
+        label { font-size: 13px; color: var(--sub); font-weight: bold; white-space: nowrap; }
+        input {
+            width: 100%; background: #fff; border: 1px solid var(--bd);
+            padding: 5px; border-radius: 4px; font-size: 16px; font-weight: 700; box-sizing: border-box;
+            color: var(--txt);
+        }
+
+        /* B站操作区：高度压缩，字体放大 */
+        .b-control-tight {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .odds-master-nano {
+            display: flex;
+            align-items: center;
+            background: #f0fdf4;
+            border: 2px solid #d1fae5;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .odds-master-nano input {
+            width: 70px; 
+            height: 38px; 
+            font-size: 22px; /* 赔率大字 */
+            text-align: center; 
+            color: var(--suc);
+            border: none; 
+            background: transparent;
+            padding: 0;
+        }
+        
+        .step-btn-nano {
+            width: 38px;
+            height: 38px;
+            background: #fff;
+            border: none;
+            border-left: 1px solid #d1fae5;
+            border-right: 1px solid #d1fae5;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--suc);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-btn-nano:active { background: #d1fae5; }
+        .step-btn-nano.left { border-left: none; }
+        .step-btn-nano.right { border-right: none; }
+
+        /* 梯度表格 */
+        .ladder-table { width: 100%; border-collapse: collapse; }
+        .ladder-table th { text-align: left; font-size: 11px; color: var(--sub); padding-bottom: 4px; }
+        .ladder-row td { padding: 4px 0; border-bottom: 1px solid #f8fafc; }
+        
+        .stake-btn {
+            background: #f1f5f9; color: var(--txt); font-weight: 800;
+            padding: 6px 0; border-radius: 6px; text-align: center;
+            cursor: pointer; font-size: 16px; border: 1px solid var(--bd); /* 补单金额大字 */
+        }
+        
+        .row-main { background: #f0fdf4; }
+        .row-main .stake-btn { background: var(--suc); color: #fff; border: none; font-size: 18px; }
+
+        .p-pos { color: var(--suc); font-weight: 800; font-size: 14px; }
+        .p-neg { color: var(--dan); font-weight: 800; font-size: 14px; }
+
+        .footer {
+            padding: 6px 12px; background: #f8fafc;
+            border-top: 1px solid var(--bd); display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .rebate-box { display: flex; align-items: center; gap: 4px; }
+        .rebate-box span { font-size: 11px; color: var(--sub); font-weight: bold; }
+        .rebate-box input { width: 38px; font-size: 11px; padding: 2px; text-align: center; color: var(--sub); font-weight: bold; }
+        .total-val { font-size: 14px; font-weight: 900; color: var(--pri); }
+
+        .copied { background: #333 !important; color: #fff !important; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body>
+
+<div id="ultra-nano-calc">
+    <div class="header">
+        <div class="header-title">对冲专家</div>
+        <div style="font-size: 9px; color: #ccc;">↑/↓ 键微调</div>
+    </div>
+
+    <div class="scroll-area">
+        <div class="card-a">
+            <div class="row">
+                <div class="col"><label>A额</label><input type="number" id="sA" value="10000" oninput="calc()"></div>
+                <div class="col"><label>A赔</label><input type="number" id="oA" value="1.95" step="0.01" oninput="calc()"></div>
+            </div>
+        </div>
+
+        <div class="b-control-tight">
+            <label style="color: var(--suc); font-size: 13px; font-weight: bold;">B站赔率</label>
+            <div class="odds-master-nano">
+                <button class="step-btn-nano left" onclick="adj(-0.01)">−</button>
+                <input type="number" id="oB" value="2.01" step="0.01" oninput="calc()">
+                <button class="step-btn-nano right" onclick="adj(0.01)">+</button>
+            </div>
+        </div>
+
+        <table class="ladder-table">
+            <thead>
+                <tr><th width="25%">梯度</th><th width="45%" style="text-align: center;">补单金额</th><th width="30%" style="text-align: right;">盈亏</th></tr>
+            </thead>
+            <tbody id="ladder-body"></tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <div class="rebate-box">
+            <span>返水:</span>
+            <input type="number" id="rA" value="0.5" oninput="calc()">
+            <input type="number" id="rB" value="0.5" oninput="calc()">
+        </div>
+        <div class="total-box">
+            <span style="font-size: 10px; color: var(--sub);">总投:</span>
+            <span id="total" class="total-val">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function adj(delta) {
+        const el = document.getElementById('oB');
+        el.value = (parseFloat(el.value) + delta).toFixed(2);
+        calc();
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') { e.preventDefault(); adj(0.01); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); adj(-0.01); }
+    });
+
+    function copy(val, el) {
+        navigator.clipboard.writeText(val);
+        const original = el.innerText;
+        el.innerText = "成功";
+        el.classList.add('copied');
+        setTimeout(() => {
+            el.innerText = original;
+            el.classList.remove('copied');
+        }, 400);
+    }
+
+    function calc() {
+        const sA = parseFloat(document.getElementById('sA').value) || 0;
+        const oA = parseFloat(document.getElementById('oA').value) || 0;
+        const baseOB = parseFloat(document.getElementById('oB').value) || 0;
+        const rA = (parseFloat(document.getElementById('rA').value) || 0) / 100;
+        const rB = (parseFloat(document.getElementById('rB').value) || 0) / 100;
+
+        if (sA <= 0 || oA <= 0 || baseOB <= 0) return;
+
+        const targetReturn = sA * oA;
+        const tbody = document.getElementById('ladder-body');
+        tbody.innerHTML = '';
+        let mainTotal = 0;
+
+        for (let i = 2; i >= -2; i--) {
+            const curOB = parseFloat((baseOB + (i * 0.01)).toFixed(2));
+            if (curOB <= 0) continue;
+            const sB = Math.round(targetReturn / curOB);
+            const totalSpent = sA + sB;
+            const netProfit = targetReturn + (sA * rA + sB * rB) - totalSpent;
+            const roi = ((netProfit / totalSpent) * 100).toFixed(1);
+            if (i === 0) mainTotal = totalSpent;
+            const tr = document.createElement('tr');
+            if (i === 0) tr.className = 'row-main';
+            const color = i < 0 ? 'var(--dan)' : (i > 0 ? 'var(--pri)' : 'var(--suc)');
+            tr.innerHTML = `<td style="color: ${color}; font-weight: 800; font-size: 14px;">${i > 0 ? '↑' : (i < 0 ? '↓' : '●')} ${curOB.toFixed(2)}</td>
+                <td style="text-align: center;"><div class="stake-btn" onclick="copy('${sB}', this)">${sB}</div></td>
+                <td style="text-align: right;"><div class="${netProfit >= 0 ? 'p-pos' : 'p-neg'}">${netProfit >= 0 ? '+' : ''}${netProfit.toFixed(1)}</div>
+                <div style="font-size: 10px; color: var(--sub); line-height:1.1;">${roi}%</div></td>`;
+            tbody.appendChild(tr);
+        }
+        document.getElementById('total').innerText = mainTotal.toLocaleString();
+    }
+    calc();
+</script>
+
+</body>
+</html>
