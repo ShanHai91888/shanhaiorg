@@ -19,10 +19,6 @@
                     fontFamily: {
                         sans: ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
                         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-                    },
-                    colors: {
-                        brand: '#A14041',
-                        surface: '#fafafa'
                     }
                 }
             }
@@ -31,29 +27,30 @@
     
     <style>
         body {
+            /* 开启抗锯齿 */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: #ffffff;
-            color: #171717;
+            color: #000000;
         }
 
         .heading-display {
-            font-size: clamp(2.2rem, 4.5vw, 3.75rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.03em;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
-        .heading-section-sm {
-            font-size: 1.125rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: #262626;
+        .heading-section {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
         }
 
+        /* 隐藏滚动条但保留功能 */
         .overflow-auto::-webkit-scrollbar { display: none; }
         .overflow-auto { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* ====== 纯渐变动画 (原地无位移) ====== */
         .text-rotate-container {
             display: inline-block;
             position: relative;
@@ -65,9 +62,9 @@
         .text-rotate-word {
             position: absolute;
             left: 0;
-            top: 100%;
+            top: 0;
             opacity: 0;
-            animation: rotateWords 9s infinite cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeWords 9s infinite ease-in-out;
             white-space: nowrap;
             color: #404040;
         }
@@ -75,28 +72,30 @@
         .text-rotate-word:nth-child(2) { animation-delay: 3s; }
         .text-rotate-word:nth-child(3) { animation-delay: 6s; }
 
-        @keyframes rotateWords {
-            0%, 5% { top: 100%; opacity: 0; filter: blur(4px); transform: translateY(10px); }
-            10%, 25% { top: 0; opacity: 1; filter: blur(0px); transform: translateY(0); }
-            30%, 100% { top: -100%; opacity: 0; filter: blur(4px); transform: translateY(-10px); }
+        @keyframes fadeWords {
+            0% { opacity: 0; }
+            8% { opacity: 1; }
+            25% { opacity: 1; }
+            33% { opacity: 0; }
+            100% { opacity: 0; }
         }
 
+        /* ====== 悬停交互 ====== */
         .hover-effect-box {
             position: relative;
             display: inline-block;
             cursor: pointer;
-            padding: 2px 8px;
-            margin-left: -8px; 
-            border-radius: 4px;
+            padding: 0 4px;
+            margin-left: -4px;
             overflow: hidden;
         }
         .hover-effect-bg {
             position: absolute;
             inset: 0;
-            background-color: #171717;
+            background-color: #000000;
             transform-origin: left;
             transform: scaleX(0);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s ease-out;
             z-index: 0;
         }
         .hover-effect-box:hover .hover-effect-bg {
@@ -105,112 +104,130 @@
         .hover-effect-text {
             position: relative;
             z-index: 10;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease-out;
             display: inline-block;
+            color: #000000;
         }
         .hover-effect-box:hover .hover-effect-text {
             color: #ffffff;
-            transform: translateX(4px);
         }
 
+        /* ====== 终端打字机光标 ====== */
         .blinking-cursor::after {
             content: "█";
             display: inline-block;
             margin-left: 6px;
             animation: blink 1s step-end infinite;
-            color: #171717; 
+            color: #000000; 
         }
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-
-        .border-layout {
-            border-color: #e5e5e5;
-        }
     </style>
 </head>
-<body class="bg-white text-neutral-900 antialiased font-sans min-h-screen">
+<body class="bg-white text-black antialiased font-sans min-h-screen">
 
     <div class="block md:hidden">
-        <div class="relative h-dvh overflow-hidden flex flex-col">
-            <div class="overflow-hidden border-b border-layout px-6 py-8 bg-surface">
-                <div class="flex flex-col justify-center gap-2">
-                    <h1 class="heading-display">你好，我是山海</h1>
-                    <span class="heading-display text-rotate-container">
-                        <span class="text-rotate-word">体育资产市场中性策略</span>
-                        <span class="text-rotate-word">非对称风险收益套利</span>
-                        <span class="text-rotate-word">平台风控算法逆向探测</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="overflow-hidden border-b border-layout bg-white px-6 py-5">
-                <div class="flex h-full flex-col">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-2 h-2 rounded-full bg-red-500/80"></div>
-                        <div class="w-2 h-2 rounded-full bg-yellow-500/80"></div>
-                        <div class="w-2 h-2 rounded-full bg-green-500/80"></div>
-                        <h3 class="text-xs font-mono text-neutral-500 ml-2 tracking-wider">终端控制台</h3>
-                    </div>
-                    <div class="font-mono text-sm leading-relaxed text-neutral-700">
-                        <div class="opacity-70">> SOP 传奇交易系统... [工作状态：最佳]</div>
-                        <div class="blinking-cursor mt-1 text-neutral-900">> 团队当前状态 // 正常运营中</div>
+        <div class="relative h-dvh overflow-hidden">
+            <div class="grid h-full" style="grid-template-rows:minmax(0, 2.5fr) minmax(0, 2fr) minmax(0, 3fr) minmax(0, 1.5fr) minmax(0, 1.5fr)">
+                
+                <div class="overflow-hidden border-b border-black px-6 py-6">
+                    <div class="flex h-full flex-col justify-center gap-2">
+                        <h1 class="heading-display">Hi, I'm 山海</h1>
+                        <span class="heading-display text-rotate-container text-neutral-500">
+                            <span class="text-rotate-word">体育资产市场中性策略</span>
+                            <span class="text-rotate-word">非对称风险收益套利</span>
+                            <span class="text-rotate-word">平台风控算法逆向探测</span>
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <div class="overflow-hidden border-b border-layout px-6 py-6 flex-1">
-                <div class="h-full overflow-auto">
-                    <h3 class="heading-section-sm mb-4 text-neutral-500">内容目录</h3>
-                    <div class="flex flex-col gap-6">
-                        <div class="group cursor-pointer">
-                            <span class="hover-effect-box py-0">
-                                <span class="hover-effect-bg"></span>
-                                <span class="hover-effect-text font-medium text-lg md:text-xl">套利引擎</span>
-                            </span>
-                            <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">跨平台定价偏差与无风险对冲执行</p>
+                <div class="overflow-hidden border-b border-black px-6 py-6">
+                    <div class="overflow-hidden flex h-full flex-col">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                            <h3 class="text-sm font-bold ml-2">系统监控</h3>
                         </div>
-                        <div class="group cursor-pointer">
-                            <a href="pingtai.html" target="_blank" class="block">
-                                <span class="hover-effect-box py-0">
-                                    <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-lg md:text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
-                                </span>
-                                <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">主流交易平台的规则、限额与实测特征记录</p>
-                            </a>
-                        </div>
-                        <div class="group cursor-pointer">
-                            <a href="leagues.html" target="_blank" class="block">
-                                <span class="hover-effect-box py-0">
-                                    <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-lg md:text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
-                                </span>
-                                <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">球队派系拓扑与基本面量化建模</p>
-                            </a>
-                        </div>
-                        <div class="group cursor-pointer">
-                            <a href="tools.html" target="_blank" class="block">
-                                <span class="hover-effect-box py-0">
-                                    <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-lg md:text-xl">常用工具 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
-                                </span>
-                                <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">高效实现地址监控、数据分析与自动化脚本</p>
-                            </a>
+                        <div class="font-mono text-sm leading-loose text-neutral-600 mt-2">
+                            <div>> SOP 传奇交易系统... [工作状态：最佳]</div>
+                            <div class="blinking-cursor mt-1 text-black">> 团队当前状态 // 正常运营中</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="overflow-hidden bg-white px-6 py-6">
-                <div class="h-full">
-                    <h3 class="heading-section-sm mb-4 text-neutral-500">个人档案</h3>
-                    <div class="flex items-start gap-4">
-                        <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-neutral-100 shadow-sm">
-                            <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-cover"/>
+                <div class="overflow-hidden border-b border-black px-6 py-6">
+                    <div class="relative h-full overflow-auto">
+                        <h2 class="heading-section mb-5">Content</h2>
+                        <div class="flex flex-col gap-5">
+                            <div class="group cursor-pointer">
+                                <span class="hover-effect-box py-0">
+                                    <span class="hover-effect-bg"></span>
+                                    <span class="hover-effect-text text-lg md:text-xl">套利引擎</span>
+                                </span>
+                                <p class="text-sm text-neutral-600 mt-1">跨平台定价偏差与无风险对冲执行</p>
+                            </div>
+                            <div class="group cursor-pointer">
+                                <a href="pingtai.html" target="_blank" class="block">
+                                    <span class="hover-effect-box py-0">
+                                        <span class="hover-effect-bg"></span>
+                                        <span class="hover-effect-text text-lg md:text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    </span>
+                                    <p class="text-sm text-neutral-600 mt-1">主流交易平台的规则、限额与实测特征记录</p>
+                                </a>
+                            </div>
+                            <div class="group cursor-pointer">
+                                <a href="leagues.html" target="_blank" class="block">
+                                    <span class="hover-effect-box py-0">
+                                        <span class="hover-effect-bg"></span>
+                                        <span class="hover-effect-text text-lg md:text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    </span>
+                                    <p class="text-sm text-neutral-600 mt-1">球队派系拓扑与基本面量化建模</p>
+                                </a>
+                            </div>
+                            <div class="group cursor-pointer">
+                                <a href="tools.html" target="_blank" class="block">
+                                    <span class="hover-effect-box py-0">
+                                        <span class="hover-effect-bg"></span>
+                                        <span class="hover-effect-text text-lg md:text-xl">常用工具 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    </span>
+                                    <p class="text-sm text-neutral-600 mt-1">高效实现地址监控、数据分析与自动化脚本</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-hidden border-b border-black px-6 py-6 bg-white">
+                    <h2 class="heading-section mb-4">About Me</h2>
+                    <div class="flex items-center gap-4">
+                        <div class="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20 overflow-hidden">
+                            <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-contain"/>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm text-neutral-600 leading-relaxed">专注于构建客观规律与主观洞察相结合的交易体系。记录策略的演进、代码的构建，以及对宏观与微观市场的思考。</p>
+                            <p class="text-sm text-black leading-relaxed">
+                                专注于构建客观规律与主观洞察相结合的交易体系。<br/>在这里，记录策略演进与代码构建。
+                            </p>
+                            <div class="mt-2 text-xs text-neutral-600">
+                                <a href="http://shanhai.org" target="_blank" rel="noreferrer" class="hover:text-black">shanhai.org</a>
+                                <span class="mx-1">|</span>
+                                <a href="https://x.com/shanhai188" target="_blank" rel="noreferrer" class="hover:text-black">推特</a>
+                                <span class="mx-1">|</span>
+                                <a href="https://t.me/TGshanhai" target="_blank" rel="noreferrer" class="hover:text-black">电报</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-hidden bg-white px-6 py-6">
+                    <div class="h-full">
+                        <h2 class="heading-section mb-4">Buy Me A Coffee</h2>
+                        <div class="space-y-2">
+                            <button type="button" class="block w-full cursor-pointer break-all text-left text-neutral-600 hover:text-black font-mono text-sm">USDT: TRuNeMyjn7UX2JdQMqNDaTTmJ888888888</button>
+                            <button type="button" class="block w-full cursor-pointer break-all text-left text-neutral-600 hover:text-black font-mono text-sm">EVM: 0x26582572edaE032cF55150B9d93D68fa56a18688</button>
+                            <button type="button" class="block w-full cursor-pointer break-all text-left text-neutral-600 hover:text-black font-mono text-sm">BTC: bc1q8gr4js0789fvrvnzvlgp2d6mzdhk8dnhpmx5nd</button>
                         </div>
                     </div>
                 </div>
@@ -220,159 +237,165 @@
 
 
     <div class="hidden md:block">
-        <div class="relative h-screen w-full overflow-hidden bg-white border-8 border-white box-border">
-            <div class="absolute left-0 right-0 top-0 flex rounded-xl border border-layout overflow-hidden" style="height:35%">
-                <div class="relative h-full overflow-auto bg-surface" style="width:60%">
-                    <div class="h-full p-8 lg:p-12">
-                        <div class="flex h-full flex-col justify-center">
-                            <h1 class="heading-display mb-2">你好，我是山海</h1>
-                            <span class="heading-display text-rotate-container" style="width: 100%; max-width: 600px;">
-                                <span class="text-rotate-word">体育资产市场中性策略</span>
-                                <span class="text-rotate-word">非对称风险收益套利</span>
-                                <span class="text-rotate-word">平台风控算法逆向探测</span>
-                            </span>
-                        </div>
+        <div class="relative h-screen w-full overflow-hidden">
+            
+            <div class="absolute left-0 right-0 top-0 flex" style="height:25%">
+                <div class="relative h-full overflow-auto" style="width:55%">
+                    <div class="h-full p-6 lg:p-8 flex flex-col justify-center">
+                        <h1 class="heading-display mb-1">Hi, I'm 山海</h1>
+                        <span class="heading-display text-rotate-container text-neutral-400" style="width: 100%; max-width: 600px;">
+                            <span class="text-rotate-word">体育资产市场中性策略</span>
+                            <span class="text-rotate-word">非对称风险收益套利</span>
+                            <span class="text-rotate-word">平台风控算法逆向探测</span>
+                        </span>
                     </div>
                 </div>
 
-                <div class="group relative z-10 flex h-full w-0 cursor-col-resize items-center justify-center bg-layout">
-                    <div class="absolute h-full w-[1px] bg-layout group-hover:w-[4px] group-hover:bg-brand transition-all duration-300"></div>
+                <div class="group relative z-10 flex h-full w-0 cursor-col-resize items-center justify-center">
+                    <div class="absolute h-full w-px origin-top bg-black group-hover:w-1 group-hover:bg-gray-400 transition-all"></div>
                 </div>
 
-                <div class="relative h-full overflow-hidden bg-white" style="width:40%">
-                    <div class="h-full p-6 lg:p-8 flex flex-col">
+                <div class="relative h-full overflow-auto" style="width:45%">
+                    <div class="h-full p-6 lg:p-8 flex flex-col justify-center">
                         <div class="flex items-center gap-2 mb-4 shrink-0">
-                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-                            <span class="text-xs font-mono text-neutral-500 ml-2 tracking-wider">系统监控</span>
+                            <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                            <h2 class="text-xl font-bold ml-2">系统监控</h2>
                         </div>
-                        <div class="flex-1 overflow-auto font-mono text-sm leading-loose text-neutral-700">
-                            <div class="opacity-50">> 验证安全连接与数据接口...</div>
-                            <div class="opacity-70">> SOP 传奇交易系统... [工作状态：最佳]</div>
-                            <div class="opacity-70">> 跨平台套利引擎... [监控中]</div>
-                            <div class="blinking-cursor mt-2 text-neutral-900">> 团队当前状态 // 正常运营中</div>
+                        <div class="font-mono text-base leading-loose text-neutral-600">
+                            <div>> 验证安全连接与数据接口...</div>
+                            <div>> SOP 传奇交易系统... [工作状态：最佳]</div>
+                            <div>> 跨平台套利引擎... [监控中]</div>
+                            <div class="blinking-cursor mt-2 font-bold text-black">> 团队当前状态 // 正常运营中</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="group absolute left-0 right-0 z-10 flex h-0 cursor-row-resize items-center justify-center" style="top:35%">
-                <div class="absolute h-[1px] w-full bg-layout group-hover:h-[4px] group-hover:bg-brand transition-all duration-300"></div>
+            <div class="group absolute left-0 right-0 z-10 flex h-0 cursor-row-resize items-center justify-center" style="top:25%">
+                <div class="absolute h-px w-full origin-left bg-black group-hover:h-1 group-hover:bg-gray-400 transition-all"></div>
             </div>
 
-            <div class="absolute bottom-0 left-0 right-0 flex rounded-xl border border-layout overflow-hidden" style="height:64%; margin-top: 1%">
-                <div class="relative h-full overflow-auto bg-white" style="width:40%">
-                    <div class="h-full p-8 lg:p-10">
-                        <div class="flex items-center justify-between mb-8">
-                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs">内容导航</h3>
-                        </div>
-                        <div class="flex flex-col gap-6">
-                            <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
-                                <span class="hover-effect-box py-0 self-start">
+            <div class="absolute bottom-0 left-0 right-0 flex" style="height:75%">
+                
+                <div class="relative h-full overflow-auto" style="width:40%">
+                    <div class="h-full p-6 lg:p-8">
+                        <h2 class="heading-section mb-8">Content</h2>
+                        <div class="flex flex-col items-start gap-6 ml-4">
+                            
+                            <div class="group cursor-pointer w-full max-w-sm">
+                                <span class="hover-effect-box py-0">
                                     <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-xl">套利引擎</span>
+                                    <span class="hover-effect-text text-xl">套利引擎</span>
                                 </span>
-                                <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">跨平台定价偏差与无风险对冲执行</p>
+                                <div class="mt-2">
+                                    <p class="text-sm text-black">跨平台定价偏差与无风险对冲执行</p>
+                                    <div class="mt-3 border-b border-gray-200"></div>
+                                </div>
                             </div>
-                            <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
+                            
+                            <div class="group cursor-pointer w-full max-w-sm">
                                 <a href="pingtai.html" target="_blank" class="block">
-                                    <span class="hover-effect-box py-0 self-start">
+                                    <span class="hover-effect-box py-0">
                                         <span class="hover-effect-bg"></span>
-                                        <span class="hover-effect-text font-medium text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                        <span class="hover-effect-text text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
                                     </span>
-                                    <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">主流交易平台的规则、限额与实测特征记录</p>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-black">主流交易平台的规则、限额与实测特征记录</p>
+                                        <div class="mt-3 border-b border-gray-200"></div>
+                                    </div>
                                 </a>
                             </div>
-                            <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
+
+                            <div class="group cursor-pointer w-full max-w-sm">
                                 <a href="leagues.html" target="_blank" class="block">
-                                    <span class="hover-effect-box py-0 self-start">
+                                    <span class="hover-effect-box py-0">
                                         <span class="hover-effect-bg"></span>
-                                        <span class="hover-effect-text font-medium text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                        <span class="hover-effect-text text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
                                     </span>
-                                    <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">球队派系拓扑与基本面量化建模</p>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-black">球队派系拓扑与基本面量化建模</p>
+                                        <div class="mt-3 border-b border-gray-200"></div>
+                                    </div>
                                 </a>
                             </div>
-                            <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
+
+                            <div class="group cursor-pointer w-full max-w-sm">
                                 <a href="tools.html" target="_blank" class="block">
-                                    <span class="hover-effect-box py-0 self-start">
+                                    <span class="hover-effect-box py-0">
                                         <span class="hover-effect-bg"></span>
-                                        <span class="hover-effect-text font-medium text-xl">常用工具 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                        <span class="hover-effect-text text-xl">常用工具 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
                                     </span>
-                                    <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">高效实现地址监控、数据分析与自动化脚本</p>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-black">高效实现地址监控、数据分析与自动化脚本</p>
+                                        <div class="mt-3 border-b border-gray-200"></div>
+                                    </div>
                                 </a>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="group relative z-10 flex h-full w-0 cursor-col-resize items-center justify-center bg-layout">
-                    <div class="absolute h-full w-[1px] bg-layout group-hover:w-[4px] group-hover:bg-brand transition-all duration-300"></div>
+                <div class="group relative z-10 flex h-full w-0 cursor-col-resize items-center justify-center">
+                    <div class="absolute h-full w-px origin-top bg-black group-hover:w-1 group-hover:bg-gray-400 transition-all"></div>
                 </div>
 
                 <div class="relative h-full" style="width:60%">
-                    <div class="absolute left-0 right-0 top-0 overflow-auto bg-surface" style="height:55%">
-                        <div class="h-full p-8 lg:p-10 flex flex-col justify-center">
-                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs mb-6">个人档案</h3>
-                            <div class="flex items-center gap-6 xl:gap-8">
-                                <div class="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28 xl:h-36 xl:w-36 overflow-hidden rounded-2xl border border-neutral-200 shadow-sm transition-transform hover:scale-105 duration-500">
-                                    <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-cover"/>
+                    
+                    <div class="absolute left-0 right-0 top-0 overflow-auto" style="height:60%">
+                        <div class="h-full p-6 lg:p-8 flex flex-col justify-center">
+                            <h2 class="heading-section mb-6">About Me</h2>
+                            <div class="flex items-center gap-6 pl-4">
+                                <div class="relative h-24 w-24 shrink-0 sm:h-32 sm:w-32 xl:h-40 xl:w-40">
+                                    <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-contain"/>
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-base xl:text-lg text-neutral-700 leading-relaxed max-w-xl font-medium">
-                                        专注于构建客观规律与主观洞察相结合的交易体系。<br class="hidden xl:block" />
+                                    <p class="text-base text-black leading-relaxed font-medium">
+                                        专注于构建客观规律与主观洞察相结合的交易体系。<br/>
                                         在这里，记录策略的演进、代码的构建，以及对宏观与微观市场的思考。
                                     </p>
-                                    <div class="mt-5 flex gap-4 text-sm font-medium text-neutral-500">
-                                        <a href="http://shanhai.org" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand flex items-center gap-1">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                                            shanhai.org
-                                        </a>
-                                        <span class="text-neutral-300">|</span>
-                                        <a href="https://x.com/shanhai188" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">推特</a>
-                                        <span class="text-neutral-300">|</span>
-                                        <a href="https://t.me/TGshanhai" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">电报</a>
+                                    <div class="mt-4 flex text-sm text-black">
+                                        <a href="http://shanhai.org" target="_blank" rel="noreferrer" class="hover:text-[#A14041] transition-colors">shanhai.org</a>
+                                        <span class="mx-2">|</span>
+                                        <a href="https://x.com/shanhai188" target="_blank" rel="noreferrer" class="hover:text-[#A14041] transition-colors">推特</a>
+                                        <span class="mx-2">|</span>
+                                        <a href="https://t.me/TGshanhai" target="_blank" rel="noreferrer" class="hover:text-[#A14041] transition-colors">电报</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="group absolute left-0 right-0 z-10 flex h-0 cursor-row-resize items-center justify-center" style="top:55%">
-                        <div class="absolute h-[1px] w-full bg-layout group-hover:h-[4px] group-hover:bg-brand transition-all duration-300"></div>
+                    <div class="group absolute left-0 right-0 z-10 flex h-0 cursor-row-resize items-center justify-center" style="top:60%">
+                        <div class="absolute h-px w-full origin-left bg-black group-hover:h-1 group-hover:bg-gray-400 transition-all"></div>
                     </div>
 
-                    <div class="absolute bottom-0 left-0 right-0 overflow-auto bg-white" style="height:45%">
-                        <div class="h-full p-8 lg:p-10 flex flex-col justify-center">
-                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs mb-4">赞助支持</h3>
-                            <div class="space-y-3 max-w-2xl">
-                                <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
-                                    <div class="flex items-center gap-3 overflow-hidden">
-                                        <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">USDT</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">TRuNeMyjn7UX2JdQMqNDaTTmJ888888888</span>
-                                    </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
+                    <div class="absolute bottom-0 left-0 right-0 overflow-auto" style="height:40%">
+                        <div class="h-full p-6 lg:p-8 flex flex-col justify-center">
+                            <h2 class="heading-section mb-6">Buy Me A Coffee</h2>
+                            <div class="space-y-3 pl-4">
+                                <div class="flex items-center gap-2 group cursor-copy">
+                                    <span class="text-sm font-bold text-neutral-600 w-12">USDT:</span>
+                                    <span class="font-mono text-sm text-neutral-600 group-hover:text-black transition-colors break-all">TRuNeMyjn7UX2JdQMqNDaTTmJ888888888</span>
                                 </div>
-                                <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
-                                    <div class="flex items-center gap-3 overflow-hidden">
-                                        <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">EVM</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">0x26582572edaE032cF55150B9d93D68fa56a18688</span>
-                                    </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
+                                <div class="flex items-center gap-2 group cursor-copy">
+                                    <span class="text-sm font-bold text-neutral-600 w-12">EVM:</span>
+                                    <span class="font-mono text-sm text-neutral-600 group-hover:text-black transition-colors break-all">0x26582572edaE032cF55150B9d93D68fa56a18688</span>
                                 </div>
-                                <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
-                                    <div class="flex items-center gap-3 overflow-hidden">
-                                        <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">BTC</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">bc1q8gr4js0789fvrvnzvlgp2d6mzdhk8dnhpmx5nd</span>
-                                    </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
+                                <div class="flex items-center gap-2 group cursor-copy">
+                                    <span class="text-sm font-bold text-neutral-600 w-12">BTC:</span>
+                                    <span class="font-mono text-sm text-neutral-600 group-hover:text-black transition-colors break-all">bc1q8gr4js0789fvrvnzvlgp2d6mzdhk8dnhpmx5nd</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 </html>
