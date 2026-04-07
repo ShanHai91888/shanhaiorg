@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>常用平台记录 | shanhai.org</title>
+    <meta name="description" content="主流体育交易平台的规则、限额与风控实测特征记录"/>
+    <link rel="icon" href="/icon.png" sizes="32x32" type="image/png"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-sans/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-mono/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        brand: '#A14041',
+                        surface: '#fafafa',
+                        layout: '#e5e5e5'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #ffffff;
+            color: #171717;
+        }
+
+        /* 隐藏滚动条 */
+        .overflow-auto::-webkit-scrollbar { display: none; }
+        .overflow-auto { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 卡片悬停微动效 (去除了放大和阴影，仅保留颜色微调) */
+        .platform-card {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 状态指示点 */
+        .status-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+        .status-safe { background-color: #10b981; } /* 绿色：安全/不限额 */
+        .status-warn { background-color: #f59e0b; } /* 黄色：中等风控/动态限额 */
+        .status-danger { background-color: #ef4444; } /* 红色：极易限额/高危风控 */
+    </style>
+</head>
+<body class="font-sans antialiased pb-12">
+    
+    <main class="min-h-screen bg-white px-8 py-12 text-neutral-900 md:px-16">
+        <div class="mx-auto max-w-6xl">
+            
+            <div class="mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight">常用平台记录</h1>
+                <p class="mt-3 text-base md:text-lg text-neutral-500">主流体育交易平台、流动性提供方及聚合通道的规则、限额与实测特征记录。</p>
+                
+                <div class="mt-6 rounded-lg bg-neutral-50 border border-neutral-100 p-4">
+                    <p class="text-sm text-neutral-600 leading-relaxed font-mono">
+                        <span class="font-bold text-neutral-900">系统声明：</span> 
+                        本页面仅作为团队内部实测数据的归档记录。不提供任何外部跳转链接，亦不构成任何平台推荐或诱导注册行为。<br/>
+                        <span class="text-xs text-neutral-400 mt-1 block">最后同步：2026.04</span>
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-6 mt-8 text-xs font-mono text-neutral-500">
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span> 极低风控</span>
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> 动态风控</span>
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#ef4444]"></span> 极易限额</span>
+                </div>
+            </div>
+
+            <div class="space-y-12">
+                
+                <section class="rounded-xl border border-layout bg-surface p-6 sm:p-8">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-neutral-900">硬盘与交易所</h2>
+                            <p class="mt-1 text-sm text-neutral-500">高流动性、接受赢家、极低限额风险的平台与撮合交易市场</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-neutral-900 flex items-center justify-center text-white font-bold text-xl">
+                                P
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">平博</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">套利基石</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#FFB80C] flex items-center justify-center text-neutral-900 font-bold text-xl">
+                                B
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">必发</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">撮合交易</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#1C3B6F] flex items-center justify-center text-white font-bold text-xl">
+                                S
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">利记</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">经典亚盘</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#D12027] flex items-center justify-center text-white font-bold text-xl">
+                                M
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">Matchbook</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">撮合交易</span>
+                        </div>
+                        
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#4F46E5] flex items-center justify-center text-white font-bold text-xl">
+                                I
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">沙巴</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">亚洲盘口</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-xl border border-layout bg-surface p-6 sm:p-8">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-neutral-900">软盘平台</h2>
+                            <p class="mt-1 text-sm text-neutral-500">赔率高、盘口全，但极易触发风控限额（套利需高度伪装订单流）</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#007A5E] flex items-center justify-center text-white font-bold text-xl">
+                                3
+                                <div class="status-dot status-danger"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">Bet365</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">风控极严</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#001D4A] flex items-center justify-center text-[#F9A01B] font-bold text-xl">
+                                W
+                                <div class="status-dot status-danger"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">威廉希尔</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">英国老牌</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#1875D2] flex items-center justify-center text-white font-bold text-xl">
+                                1
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">1xBet</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">俄系 / 提款风险</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#FFCC00] flex items-center justify-center text-black font-bold text-xl">
+                                B
+                                <div class="status-dot status-danger"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">必赢</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">欧洲老牌</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-xl border border-layout bg-surface p-6 sm:p-8">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-neutral-900">亚博系直营</h2>
+                            <p class="mt-1 text-sm text-neutral-500">亚洲市场主力直营盘，额度高、返水多，但对多军、套利客执行动态降级限额机制</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#1e3a8a] flex items-center justify-center text-white font-bold text-xl">
+                                九
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">九游娱乐</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#0ea5e9] flex items-center justify-center text-white font-bold text-xl">
+                                乐
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">乐鱼体育</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#2563eb] flex items-center justify-center text-white font-bold text-xl">
+                                开
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">开云体育</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#d97706] flex items-center justify-center text-white font-bold text-xl">
+                                爱
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">爱游戏</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-xl">
+                                星
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">星空体育</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#1d4ed8] flex items-center justify-center text-white font-bold text-xl">
+                                O
+                                <div class="status-dot status-danger"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">OD体育</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">极易限额</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#2563eb] flex items-center justify-center text-white font-bold text-xl">
+                                米
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">米兰体育</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#b45309] flex items-center justify-center text-white font-bold text-xl">
+                                华
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">华体会</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">综合直营</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-xl border border-layout bg-surface p-6 sm:p-8">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-neutral-900">聚合器与 API 通道</h2>
+                            <p class="mt-1 text-sm text-neutral-500">统一资金池，多平台接口一键聚合下单</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#202020] flex items-center justify-center text-white font-bold text-xl">
+                                S
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">Sportmarket</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">Pro 版接口</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#1F418F] flex items-center justify-center text-white font-bold text-xl">
+                                B
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">BetInAsia</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">聚合通道</span>
+                        </div>
+
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-[#EE3B3B] flex items-center justify-center text-white font-bold text-xl">
+                                V
+                                <div class="status-dot status-warn"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">VODDS</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">高速接口</span>
+                        </div>
+                        
+                        <div class="platform-card flex flex-col items-center rounded-lg bg-white border border-neutral-100 p-4 relative cursor-pointer hover:border-neutral-300 hover:bg-neutral-50">
+                            <div class="relative h-12 w-12 shrink-0 rounded-full bg-neutral-700 flex items-center justify-center text-[#FCD34D] font-bold text-xl">
+                                A
+                                <div class="status-dot status-safe"></div>
+                            </div>
+                            <span class="mt-2.5 text-center text-xs font-semibold text-neutral-800">Asianodds</span>
+                            <span class="text-[10px] text-neutral-400 mt-0.5">亚盘聚合池</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
