@@ -21,7 +21,7 @@
                         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
                     },
                     colors: {
-                        brand: '#A14041', /* 点缀色 */
+                        brand: '#A14041',
                         surface: '#fafafa'
                     }
                 }
@@ -31,25 +31,17 @@
     
     <style>
         body {
-            /* 开启抗锯齿 */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: #ffffff;
             color: #171717;
         }
 
-        /* 排版比例优化 */
         .heading-display {
             font-size: clamp(2.2rem, 4.5vw, 3.75rem);
             font-weight: 700;
             line-height: 1.15;
             letter-spacing: -0.03em;
-        }
-
-        .heading-section {
-            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-            font-weight: 600;
-            letter-spacing: -0.01em;
         }
 
         .heading-section-sm {
@@ -59,11 +51,9 @@
             color: #262626;
         }
 
-        /* 隐藏滚动条但保留功能 */
         .overflow-auto::-webkit-scrollbar { display: none; }
         .overflow-auto { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* ====== 词汇轮播动画优化 ====== */
         .text-rotate-container {
             display: inline-block;
             position: relative;
@@ -91,7 +81,6 @@
             30%, 100% { top: -100%; opacity: 0; filter: blur(4px); transform: translateY(-10px); }
         }
 
-        /* ====== 高级感悬停交互 ====== */
         .hover-effect-box {
             position: relative;
             display: inline-block;
@@ -124,7 +113,6 @@
             transform: translateX(4px);
         }
 
-        /* ====== 终端打字机光标 ====== */
         .blinking-cursor::after {
             content: "█";
             display: inline-block;
@@ -137,7 +125,6 @@
             50% { opacity: 0; }
         }
 
-        /* 分割线柔化 */
         .border-layout {
             border-color: #e5e5e5;
         }
@@ -147,10 +134,9 @@
 
     <div class="block md:hidden">
         <div class="relative h-dvh overflow-hidden flex flex-col">
-            
             <div class="overflow-hidden border-b border-layout px-6 py-8 bg-surface">
                 <div class="flex flex-col justify-center gap-2">
-                    <h1 class="heading-display">Hi, I'm 山海</h1>
+                    <h1 class="heading-display">你好，我是山海</h1>
                     <span class="heading-display text-rotate-container">
                         <span class="text-rotate-word">体育资产市场中性策略</span>
                         <span class="text-rotate-word">非对称风险收益套利</span>
@@ -165,18 +151,18 @@
                         <div class="w-2 h-2 rounded-full bg-red-500/80"></div>
                         <div class="w-2 h-2 rounded-full bg-yellow-500/80"></div>
                         <div class="w-2 h-2 rounded-full bg-green-500/80"></div>
-                        <h3 class="text-xs font-mono text-neutral-500 ml-2 tracking-wider uppercase">Terminal</h3>
+                        <h3 class="text-xs font-mono text-neutral-500 ml-2 tracking-wider">终端控制台</h3>
                     </div>
                     <div class="font-mono text-sm leading-relaxed text-neutral-700">
-                        <div class="opacity-70">> Loading SOP_Legendary_Trader...</div>
-                        <div class="blinking-cursor mt-1 text-neutral-900">> Cross_Market_Arbitrage_Engine // Active</div>
+                        <div class="opacity-70">> SOP 传奇交易系统... [工作状态：最佳]</div>
+                        <div class="blinking-cursor mt-1 text-neutral-900">> 团队当前状态 // 正常运营中</div>
                     </div>
                 </div>
             </div>
 
             <div class="overflow-hidden border-b border-layout px-6 py-6 flex-1">
                 <div class="h-full overflow-auto">
-                    <h3 class="heading-section-sm mb-4 text-neutral-500">Content</h3>
+                    <h3 class="heading-section-sm mb-4 text-neutral-500">内容目录</h3>
                     <div class="flex flex-col gap-6">
                         <div class="group cursor-pointer">
                             <span class="hover-effect-box py-0">
@@ -186,25 +172,29 @@
                             <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">跨平台定价偏差与无风险对冲执行</p>
                         </div>
                         <div class="group cursor-pointer">
-                            <span class="hover-effect-box py-0">
-                                <span class="hover-effect-bg"></span>
-                                <span class="hover-effect-text font-medium text-lg md:text-xl">常用平台记录</span>
-                            </span>
-                            <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">主流交易平台的规则、限额与实测特征记录</p>
+                            <a href="pingtai.html" target="_blank" class="block">
+                                <span class="hover-effect-box py-0">
+                                    <span class="hover-effect-bg"></span>
+                                    <span class="hover-effect-text font-medium text-lg md:text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                </span>
+                                <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">主流交易平台的规则、限额与实测特征记录</p>
+                            </a>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <a href="leagues.html" target="_blank" class="block">
+                                <span class="hover-effect-box py-0">
+                                    <span class="hover-effect-bg"></span>
+                                    <span class="hover-effect-text font-medium text-lg md:text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                </span>
+                                <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">球队派系拓扑与基本面量化建模</p>
+                            </a>
                         </div>
                         <div class="group cursor-pointer">
                             <span class="hover-effect-box py-0">
                                 <span class="hover-effect-bg"></span>
-                                <span class="hover-effect-text font-medium text-lg md:text-xl">赛事网络</span>
+                                <span class="hover-effect-text font-medium text-lg md:text-xl">常用工具</span>
                             </span>
-                            <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">球队派系拓扑与基本面量化建模</p>
-                        </div>
-                        <div class="group cursor-pointer">
-                            <span class="hover-effect-box py-0">
-                                <span class="hover-effect-bg"></span>
-                                <span class="hover-effect-text font-medium text-lg md:text-xl">价值发现</span>
-                            </span>
-                            <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">正期望值(EV)捕获与赔率动态精算</p>
+                            <p class="text-sm text-neutral-500 mt-1 transition-colors group-hover:text-neutral-900">高效实现地址监控、数据分析与自动化脚本</p>
                         </div>
                     </div>
                 </div>
@@ -212,7 +202,7 @@
 
             <div class="overflow-hidden bg-white px-6 py-6">
                 <div class="h-full">
-                    <h3 class="heading-section-sm mb-4 text-neutral-500">About Me</h3>
+                    <h3 class="heading-section-sm mb-4 text-neutral-500">个人档案</h3>
                     <div class="flex items-start gap-4">
                         <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-neutral-100 shadow-sm">
                             <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-cover"/>
@@ -229,13 +219,11 @@
 
     <div class="hidden md:block">
         <div class="relative h-screen w-full overflow-hidden bg-white border-8 border-white box-border">
-            
             <div class="absolute left-0 right-0 top-0 flex rounded-xl border border-layout overflow-hidden" style="height:35%">
-                
                 <div class="relative h-full overflow-auto bg-surface" style="width:60%">
                     <div class="h-full p-8 lg:p-12">
                         <div class="flex h-full flex-col justify-center">
-                            <h1 class="heading-display mb-2">Hi, I'm 山海</h1>
+                            <h1 class="heading-display mb-2">你好，我是山海</h1>
                             <span class="heading-display text-rotate-container" style="width: 100%; max-width: 600px;">
                                 <span class="text-rotate-word">体育资产市场中性策略</span>
                                 <span class="text-rotate-word">非对称风险收益套利</span>
@@ -255,13 +243,13 @@
                             <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-                            <span class="text-xs font-mono text-neutral-500 ml-2 tracking-wider uppercase">System_Monitor</span>
+                            <span class="text-xs font-mono text-neutral-500 ml-2 tracking-wider">系统监控</span>
                         </div>
                         <div class="flex-1 overflow-auto font-mono text-sm leading-loose text-neutral-700">
-                            <div class="opacity-50">> Initializing environment...</div>
-                            <div class="opacity-70">> Loading SOP_Legendary_Trader... [OK]</div>
-                            <div class="opacity-70">> Syncing historical probability data...</div>
-                            <div class="blinking-cursor mt-2 text-neutral-900">> Cross_Market_Arbitrage_Engine // Active</div>
+                            <div class="opacity-50">> 验证安全连接与数据接口...</div>
+                            <div class="opacity-70">> SOP 传奇交易系统... [工作状态：最佳]</div>
+                            <div class="opacity-70">> 跨平台套利引擎... [监控中]</div>
+                            <div class="blinking-cursor mt-2 text-neutral-900">> 团队当前状态 // 正常运营中</div>
                         </div>
                     </div>
                 </div>
@@ -272,44 +260,43 @@
             </div>
 
             <div class="absolute bottom-0 left-0 right-0 flex rounded-xl border border-layout overflow-hidden" style="height:64%; margin-top: 1%">
-                
                 <div class="relative h-full overflow-auto bg-white" style="width:40%">
                     <div class="h-full p-8 lg:p-10">
                         <div class="flex items-center justify-between mb-8">
-                            <h3 class="heading-section-sm text-neutral-400 uppercase tracking-widest text-xs">Index / Content</h3>
+                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs">内容导航</h3>
                         </div>
-                        
                         <div class="flex flex-col gap-6">
                             <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
                                 <span class="hover-effect-box py-0 self-start">
                                     <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-xl">套利引擎 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    <span class="hover-effect-text font-medium text-xl">套利引擎</span>
                                 </span>
                                 <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">跨平台定价偏差与无风险对冲执行</p>
                             </div>
-                            
                             <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
-                                <span class="hover-effect-box py-0 self-start">
-                                    <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
-                                </span>
-                                <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">主流交易平台的规则、限额与实测特征记录</p>
+                                <a href="pingtai.html" target="_blank" class="block">
+                                    <span class="hover-effect-box py-0 self-start">
+                                        <span class="hover-effect-bg"></span>
+                                        <span class="hover-effect-text font-medium text-xl">常用平台记录 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    </span>
+                                    <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">主流交易平台的规则、限额与实测特征记录</p>
+                                </a>
                             </div>
-
                             <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
-                                <span class="hover-effect-box py-0 self-start">
-                                    <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
-                                </span>
-                                <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">球队派系拓扑与基本面量化建模</p>
+                                <a href="leagues.html" target="_blank" class="block">
+                                    <span class="hover-effect-box py-0 self-start">
+                                        <span class="hover-effect-bg"></span>
+                                        <span class="hover-effect-text font-medium text-xl">赛事网络 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    </span>
+                                    <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">球队派系拓扑与基本面量化建模</p>
+                                </a>
                             </div>
-
                             <div class="group flex flex-col gap-1 border-b border-neutral-100 pb-4">
                                 <span class="hover-effect-box py-0 self-start">
                                     <span class="hover-effect-bg"></span>
-                                    <span class="hover-effect-text font-medium text-xl">价值发现 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
+                                    <span class="hover-effect-text font-medium text-xl">常用工具 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-1">↗</span></span>
                                 </span>
-                                <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">正期望值(EV)捕获与赔率动态精算</p>
+                                <p class="text-sm text-neutral-500 transition-colors group-hover:text-neutral-800 ml-2">高效实现地址监控、数据分析与自动化脚本</p>
                             </div>
                         </div>
                     </div>
@@ -320,11 +307,9 @@
                 </div>
 
                 <div class="relative h-full" style="width:60%">
-                    
                     <div class="absolute left-0 right-0 top-0 overflow-auto bg-surface" style="height:55%">
                         <div class="h-full p-8 lg:p-10 flex flex-col justify-center">
-                            <h3 class="heading-section-sm text-neutral-400 uppercase tracking-widest text-xs mb-6">Profile</h3>
-                            
+                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs mb-6">个人档案</h3>
                             <div class="flex items-center gap-6 xl:gap-8">
                                 <div class="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28 xl:h-36 xl:w-36 overflow-hidden rounded-2xl border border-neutral-200 shadow-sm transition-transform hover:scale-105 duration-500">
                                     <img src="山海头像.jpg" alt="山海头像" class="h-full w-full object-cover"/>
@@ -340,9 +325,9 @@
                                             shanhai.org
                                         </a>
                                         <span class="text-neutral-300">|</span>
-                                        <a href="#" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">Twitter</a>
+                                        <a href="https://x.com/shanhai188" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">推特</a>
                                         <span class="text-neutral-300">|</span>
-                                        <a href="#" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">Telegram</a>
+                                        <a href="https://t.me/TGshanhai" target="_blank" rel="noreferrer" class="transition-colors hover:text-brand">电报</a>
                                     </div>
                                 </div>
                             </div>
@@ -355,41 +340,35 @@
 
                     <div class="absolute bottom-0 left-0 right-0 overflow-auto bg-white" style="height:45%">
                         <div class="h-full p-8 lg:p-10 flex flex-col justify-center">
-                            <h3 class="heading-section-sm text-neutral-400 uppercase tracking-widest text-xs mb-4">Funding / Support</h3>
+                            <h3 class="heading-section-sm text-neutral-400 tracking-widest text-xs mb-4">赞助支持</h3>
                             <div class="space-y-3 max-w-2xl">
-                                
                                 <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
                                     <div class="flex items-center gap-3 overflow-hidden">
                                         <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">USDT</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">0xf01d33b7cbd31d341cd8317243a576c98d233019</span>
+                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">TRuNeMyjn7UX2JdQMqNDaTTmJ888888888</span>
                                     </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">Copy</span>
+                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
                                 </div>
-
                                 <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
                                     <div class="flex items-center gap-3 overflow-hidden">
-                                        <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">SOL</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">DM1J9iDhXgy8jHMsc4XGUhafv4FyyBLrRtresju5xtyG</span>
+                                        <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">EVM</span>
+                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">0x26582572edaE032cF55150B9d93D68fa56a18688</span>
                                     </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">Copy</span>
+                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
                                 </div>
-
                                 <div class="group relative flex items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 p-3 hover:border-neutral-300 hover:bg-neutral-100 transition-all cursor-copy">
                                     <div class="flex items-center gap-3 overflow-hidden">
                                         <span class="shrink-0 rounded bg-white px-2 py-1 text-xs font-bold text-neutral-600 border border-neutral-200 shadow-sm">BTC</span>
-                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">bc1pc58mlfmgd226rujh93h5aaxgss...</span>
+                                        <span class="truncate font-mono text-sm text-neutral-600 group-hover:text-neutral-900">bc1q8gr4js0789fvrvnzvlgp2d6mzdhk8dnhpmx5nd</span>
                                     </div>
-                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">Copy</span>
+                                    <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-neutral-400 transition-opacity pr-2">复制</span>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
