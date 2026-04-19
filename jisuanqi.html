@@ -1,252 +1,243 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>对冲助手-大字增强版</title>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>打水计算器 | shanhai.org</title>
+    <meta name="description" content="体育资产对冲本金分配与收益精算工具"/>
+    <link rel="icon" href="/icon.png" sizes="32x32" type="image/png"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-sans/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-mono/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+                    },
+                    colors: {
+                        status: {
+                            safe: '#10b981',
+                            warn: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        :root {
-            --bg: #f1f5f9;
-            --card: #ffffff;
-            --pri: #3b82f6;
-            --suc: #10b981;
-            --dan: #ef4444;
-            --txt: #1e293b;
-            --sub: #64748b;
-            --bd: #e2e8f0;
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #fafafa;
+            color: #171717;
+            background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        body { 
-            margin: 0; background: var(--bg); 
-            font-family: 'PingFang SC', -apple-system, sans-serif;
-            color: var(--txt);
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
-        #ultra-nano-calc {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            width: 320px; /* 宽度略微增加以适应大字 */
-            background: var(--card);
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border: 1px solid var(--bd);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        .rebate-input {
+            border-bottom: 1px solid #a3a3a3;
+            transition: border-color 0.2s;
         }
-
-        .header {
-            padding: 6px 12px;
-            background: #fff;
-            border-bottom: 1px solid var(--bd);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .rebate-input:focus {
+            border-bottom: 1px solid #000000;
         }
-        .header-title { font-weight: 800; font-size: 13px; color: var(--pri); }
-
-        .scroll-area { padding: 10px; overflow-y: auto; }
-
-        /* A站区 */
-        .card-a {
-            background: #f8fafc;
-            border: 1px solid var(--bd);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-        }
-        .row { display: flex; gap: 8px; align-items: center; }
-        .col { flex: 1; display: flex; align-items: center; gap: 6px; }
-        label { font-size: 13px; color: var(--sub); font-weight: bold; white-space: nowrap; }
-        input {
-            width: 100%; background: #fff; border: 1px solid var(--bd);
-            padding: 5px; border-radius: 4px; font-size: 16px; font-weight: 700; box-sizing: border-box;
-            color: var(--txt);
-        }
-
-        /* B站操作区：高度压缩，字体放大 */
-        .b-control-tight {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .odds-master-nano {
-            display: flex;
-            align-items: center;
-            background: #f0fdf4;
-            border: 2px solid #d1fae5;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        
-        .odds-master-nano input {
-            width: 70px; 
-            height: 38px; 
-            font-size: 22px; /* 赔率大字 */
-            text-align: center; 
-            color: var(--suc);
-            border: none; 
-            background: transparent;
-            padding: 0;
-        }
-        
-        .step-btn-nano {
-            width: 38px;
-            height: 38px;
-            background: #fff;
-            border: none;
-            border-left: 1px solid #d1fae5;
-            border-right: 1px solid #d1fae5;
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--suc);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .step-btn-nano:active { background: #d1fae5; }
-        .step-btn-nano.left { border-left: none; }
-        .step-btn-nano.right { border-right: none; }
-
-        /* 梯度表格 */
-        .ladder-table { width: 100%; border-collapse: collapse; }
-        .ladder-table th { text-align: left; font-size: 11px; color: var(--sub); padding-bottom: 4px; }
-        .ladder-row td { padding: 4px 0; border-bottom: 1px solid #f8fafc; }
-        
-        .stake-btn {
-            background: #f1f5f9; color: var(--txt); font-weight: 800;
-            padding: 6px 0; border-radius: 6px; text-align: center;
-            cursor: pointer; font-size: 16px; border: 1px solid var(--bd); /* 补单金额大字 */
-        }
-        
-        .row-main { background: #f0fdf4; }
-        .row-main .stake-btn { background: var(--suc); color: #fff; border: none; font-size: 18px; }
-
-        .p-pos { color: var(--suc); font-weight: 800; font-size: 14px; }
-        .p-neg { color: var(--dan); font-weight: 800; font-size: 14px; }
-
-        .footer {
-            padding: 6px 12px; background: #f8fafc;
-            border-top: 1px solid var(--bd); display: flex;
-            justify-content: space-between; align-items: center;
-        }
-        .rebate-box { display: flex; align-items: center; gap: 4px; }
-        .rebate-box span { font-size: 11px; color: var(--sub); font-weight: bold; }
-        .rebate-box input { width: 38px; font-size: 11px; padding: 2px; text-align: center; color: var(--sub); font-weight: bold; }
-        .total-val { font-size: 14px; font-weight: 900; color: var(--pri); }
-
-        .copied { background: #333 !important; color: #fff !important; }
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased min-h-screen relative">
+    
+    <header class="bg-white border-b-2 border-black sticky top-0 z-50">
+        <div class="px-4 md:px-8 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="tools.html" class="flex items-center justify-center text-black hover:text-gray-500 transition-colors font-bold text-lg">
+                    ←
+                </a>
+                <h1 class="text-sm md:text-base font-bold tracking-widest uppercase">Hedge_Calc</h1>
+            </div>
+            
+            <div class="flex items-center gap-6 font-mono text-xs md:text-sm font-bold">
+                <div class="flex items-center gap-1 group">
+                    <span class="text-gray-500">返水A:</span>
+                    <input type="number" id="rebateA" value="0.10" step="0.01" class="rebate-input w-12 bg-transparent outline-none text-center text-black" oninput="calculateHedge()">
+                    <span class="text-gray-500">%</span>
+                </div>
+                <div class="flex items-center gap-1 group">
+                    <span class="text-gray-500">返水B:</span>
+                    <input type="number" id="rebateB" value="0.00" step="0.01" class="rebate-input w-12 bg-transparent outline-none text-center text-black" oninput="calculateHedge()">
+                    <span class="text-gray-500">%</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div id="ultra-nano-calc">
-    <div class="header">
-        <div class="header-title">对冲专家</div>
-        <div style="font-size: 9px; color: #ccc;">↑/↓ 键微调</div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none select-none">
+        <h1 class="text-[12vw] font-black font-mono tracking-tighter">SHANHAI</h1>
     </div>
 
-    <div class="scroll-area">
-        <div class="card-a">
-            <div class="row">
-                <div class="col"><label>A额</label><input type="number" id="sA" value="10000" oninput="calc()"></div>
-                <div class="col"><label>A赔</label><input type="number" id="oA" value="1.95" step="0.01" oninput="calc()"></div>
+    <main class="fixed bottom-4 left-4 md:bottom-8 md:left-8 w-[calc(100vw-2rem)] md:w-[380px] bg-white border-2 border-black shadow-[6px_6px_0_0_#000] z-40 flex flex-col">
+        
+        <div class="bg-black text-white px-4 py-2.5 flex justify-between items-center">
+            <span class="font-mono text-xs font-bold tracking-widest">终端控制台 // 实时精算仪</span>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-status-safe animate-pulse"></span>
             </div>
         </div>
 
-        <div class="b-control-tight">
-            <label style="color: var(--suc); font-size: 13px; font-weight: bold;">B站赔率</label>
-            <div class="odds-master-nano">
-                <button class="step-btn-nano left" onclick="adj(-0.01)">−</button>
-                <input type="number" id="oB" value="2.01" step="0.01" oninput="calc()">
-                <button class="step-btn-nano right" onclick="adj(0.01)">+</button>
+        <div class="p-5 space-y-5">
+            <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">A台下注金额 (Bet A)</label>
+                <div class="flex items-center border border-black bg-neutral-50 px-3 py-2 focus-within:bg-white focus-within:shadow-[0_0_0_1px_#000] transition-all">
+                    <span class="font-mono font-bold mr-2 text-black">¥</span>
+                    <input type="number" id="betAmountA" value="10000" class="w-full bg-transparent outline-none font-mono font-bold text-xl text-black" oninput="calculateHedge()">
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">赔率 A (Odds)</label>
+                    <input type="number" id="oddsA" value="1.98" step="0.01" class="w-full border border-black bg-neutral-50 px-3 py-2 font-mono font-bold text-lg text-black outline-none focus:bg-white focus:shadow-[0_0_0_1px_#000] transition-all" oninput="calculateHedge()">
+                </div>
+                <div class="flex-1">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">赔率 B (Odds)</label>
+                    <input type="number" id="oddsB" value="2.05" step="0.01" class="w-full border border-black bg-neutral-50 px-3 py-2 font-mono font-bold text-lg text-black outline-none focus:bg-white focus:shadow-[0_0_0_1px_#000] transition-all" oninput="calculateHedge()">
+                </div>
             </div>
         </div>
 
-        <table class="ladder-table">
-            <thead>
-                <tr><th width="25%">梯度</th><th width="45%" style="text-align: center;">补单金额</th><th width="30%" style="text-align: right;">盈亏</th></tr>
-            </thead>
-            <tbody id="ladder-body"></tbody>
-        </table>
-    </div>
+        <div class="border-t border-black bg-neutral-100 p-5 font-mono text-sm">
+            <div class="space-y-3 mb-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-neutral-500 font-bold">A 台下注:</span>
+                    <span class="font-bold text-black text-base" id="outBetA">¥ 0.00</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-neutral-500 font-bold">B 台需补:</span>
+                    <span class="font-bold text-black text-base bg-[#ffbd2e] px-1" id="outBetB">¥ 0.00</span>
+                </div>
+                <div class="flex justify-between items-center pt-3 mt-1 border-t border-gray-300">
+                    <span class="text-xs text-neutral-500 font-bold">预期总派彩:</span>
+                    <span class="font-bold text-black text-base" id="grossReturn">¥ 0.00</span>
+                </div>
+                <div class="flex justify-between items-center mt-1">
+                    <span class="text-xs text-neutral-500 font-bold">返水利润:</span>
+                    <span class="font-bold text-black text-xs" id="expectedRebate">¥ 0.00</span>
+                </div>
+            </div>
 
-    <div class="footer">
-        <div class="rebate-box">
-            <span>返水:</span>
-            <input type="number" id="rA" value="0.5" oninput="calc()">
-            <input type="number" id="rB" value="0.5" oninput="calc()">
+            <div class="mt-5 space-y-3 bg-white border border-black p-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-black flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black"></span> A赢 净利
+                    </span>
+                    <span class="font-black text-lg" id="profitA">¥ 0.00</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-black flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-gray-400"></span> B赢 净利
+                    </span>
+                    <span class="font-black text-lg" id="profitB">¥ 0.00</span>
+                </div>
+            </div>
         </div>
-        <div class="total-box">
-            <span style="font-size: 10px; color: var(--sub);">总投:</span>
-            <span id="total" class="total-val">0</span>
-        </div>
-    </div>
-</div>
+    </main>
 
-<script>
-    function adj(delta) {
-        const el = document.getElementById('oB');
-        el.value = (parseFloat(el.value) + delta).toFixed(2);
-        calc();
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp') { e.preventDefault(); adj(0.01); }
-        if (e.key === 'ArrowDown') { e.preventDefault(); adj(-0.01); }
-    });
-
-    function copy(val, el) {
-        navigator.clipboard.writeText(val);
-        const original = el.innerText;
-        el.innerText = "成功";
-        el.classList.add('copied');
-        setTimeout(() => {
-            el.innerText = original;
-            el.classList.remove('copied');
-        }, 400);
-    }
-
-    function calc() {
-        const sA = parseFloat(document.getElementById('sA').value) || 0;
-        const oA = parseFloat(document.getElementById('oA').value) || 0;
-        const baseOB = parseFloat(document.getElementById('oB').value) || 0;
-        const rA = (parseFloat(document.getElementById('rA').value) || 0) / 100;
-        const rB = (parseFloat(document.getElementById('rB').value) || 0) / 100;
-
-        if (sA <= 0 || oA <= 0 || baseOB <= 0) return;
-
-        const targetReturn = sA * oA;
-        const tbody = document.getElementById('ladder-body');
-        tbody.innerHTML = '';
-        let mainTotal = 0;
-
-        for (let i = 2; i >= -2; i--) {
-            const curOB = parseFloat((baseOB + (i * 0.01)).toFixed(2));
-            if (curOB <= 0) continue;
-            const sB = Math.round(targetReturn / curOB);
-            const totalSpent = sA + sB;
-            const netProfit = targetReturn + (sA * rA + sB * rB) - totalSpent;
-            const roi = ((netProfit / totalSpent) * 100).toFixed(1);
-            if (i === 0) mainTotal = totalSpent;
-            const tr = document.createElement('tr');
-            if (i === 0) tr.className = 'row-main';
-            const color = i < 0 ? 'var(--dan)' : (i > 0 ? 'var(--pri)' : 'var(--suc)');
-            tr.innerHTML = `<td style="color: ${color}; font-weight: 800; font-size: 14px;">${i > 0 ? '↑' : (i < 0 ? '↓' : '●')} ${curOB.toFixed(2)}</td>
-                <td style="text-align: center;"><div class="stake-btn" onclick="copy('${sB}', this)">${sB}</div></td>
-                <td style="text-align: right;"><div class="${netProfit >= 0 ? 'p-pos' : 'p-neg'}">${netProfit >= 0 ? '+' : ''}${netProfit.toFixed(1)}</div>
-                <div style="font-size: 10px; color: var(--sub); line-height:1.1;">${roi}%</div></td>`;
-            tbody.appendChild(tr);
+    <script>
+        function getEffectiveTurnover(betAmount, odds, isWin) {
+            if (!isWin) return betAmount; 
+            if (odds >= 2.0) return betAmount; 
+            return betAmount * (odds - 1); 
         }
-        document.getElementById('total').innerText = mainTotal.toLocaleString();
-    }
-    calc();
-</script>
 
+        function calculateHedge() {
+            const inputBetA = parseFloat(document.getElementById('betAmountA').value) || 0;
+            const oddsA = parseFloat(document.getElementById('oddsA').value) || 0;
+            const oddsB = parseFloat(document.getElementById('oddsB').value) || 0;
+            
+            const rebateRateA = (parseFloat(document.getElementById('rebateA').value) || 0) / 100;
+            const rebateRateB = (parseFloat(document.getElementById('rebateB').value) || 0) / 100;
+
+            if (inputBetA <= 0 || oddsA <= 0 || oddsB <= 0) {
+                resetOutputs();
+                return;
+            }
+
+            const grossReturn = inputBetA * oddsA;     
+            const betB = grossReturn / oddsB;          
+            const totalCapital = inputBetA + betB;     
+
+            // 场景 1: A 赢，B 输
+            const turnoverA_Win = getEffectiveTurnover(inputBetA, oddsA, true);
+            const turnoverB_Lose = getEffectiveTurnover(betB, oddsB, false);
+            const rebateValA_Win = turnoverA_Win * rebateRateA;
+            const rebateValB_Lose = turnoverB_Lose * rebateRateB;
+            const totalRebateAWin = rebateValA_Win + rebateValB_Lose;
+            const profitA = grossReturn - totalCapital + totalRebateAWin;
+
+            // 场景 2: B 赢，A 输
+            const turnoverB_Win = getEffectiveTurnover(betB, oddsB, true);
+            const turnoverA_Lose = getEffectiveTurnover(inputBetA, oddsA, false);
+            const rebateValB_Win = turnoverB_Win * rebateRateB;
+            const rebateValA_Lose = turnoverA_Lose * rebateRateA;
+            const totalRebateBWin = rebateValB_Win + rebateValA_Lose;
+            const profitB = grossReturn - totalCapital + totalRebateBWin;
+
+            // 更新 UI 资金部分
+            document.getElementById('outBetA').innerText = '¥ ' + inputBetA.toFixed(2);
+            document.getElementById('outBetB').innerText = '¥ ' + betB.toFixed(2);
+            document.getElementById('grossReturn').innerText = '¥ ' + grossReturn.toFixed(2);
+            
+            // 更新返水利润
+            let rebateText = '';
+            if (Math.abs(totalRebateAWin - totalRebateBWin) < 0.01) {
+                rebateText = '¥ ' + totalRebateAWin.toFixed(2);
+            } else {
+                rebateText = 'A赢 ¥' + totalRebateAWin.toFixed(2) + ' / B赢 ¥' + totalRebateBWin.toFixed(2);
+            }
+            document.getElementById('expectedRebate').innerText = rebateText;
+            
+            // 更新 UI 利润部分
+            const profitAEl = document.getElementById('profitA');
+            profitAEl.innerText = (profitA >= 0 ? '+' : '') + '¥ ' + profitA.toFixed(2);
+            profitAEl.style.color = profitA >= 0 ? '#10b981' : '#ef4444';
+
+            const profitBEl = document.getElementById('profitB');
+            profitBEl.innerText = (profitB >= 0 ? '+' : '') + '¥ ' + profitB.toFixed(2);
+            profitBEl.style.color = profitB >= 0 ? '#10b981' : '#ef4444';
+        }
+
+        function resetOutputs() {
+            const defaultMoney = "¥ 0.00";
+            document.getElementById('outBetA').innerText = defaultMoney;
+            document.getElementById('outBetB').innerText = defaultMoney;
+            document.getElementById('grossReturn').innerText = defaultMoney;
+            document.getElementById('expectedRebate').innerText = defaultMoney;
+            
+            document.getElementById('profitA').innerText = defaultMoney;
+            document.getElementById('profitA').style.color = "#171717";
+            document.getElementById('profitB').innerText = defaultMoney;
+            document.getElementById('profitB').style.color = "#171717";
+        }
+
+        window.onload = calculateHedge;
+    </script>
 </body>
 </html>
