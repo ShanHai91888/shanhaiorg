@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>山海实验室 | 智能注单量化终端 V2.9 全模态版</title>
+    <title>山海实验室 | 智能注单量化终端 V3.1 三擎版</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
@@ -40,7 +40,6 @@
             color: #fff;
         }
 
-        /* 顶部控制栏 */
         .toolbar {
             display: flex;
             justify-content: flex-end;
@@ -71,7 +70,6 @@
         button.danger:hover:not(:disabled) { background-color: var(--color-loss); color: #fff; }
         button.success { background-color: var(--color-profit); color: #fff; border: none; font-weight: bold; }
 
-        /* KPI 面板 */
         .kpi-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -97,7 +95,6 @@
         .highlight-text { color: var(--highlight); }
         .kelly-text { color: var(--kelly); }
 
-        /* 核心工作区 */
         .main-workspace {
             display: flex;
             gap: 20px;
@@ -151,7 +148,6 @@
 
         #chart-container, #hourly-chart-container { width: 100%; height: calc(100% - 20px); }
 
-        /* 数据表格布局 */
         .tables-wrapper {
             display: flex;
             flex-direction: column;
@@ -188,13 +184,12 @@
 </head>
 <body>
 
-    <h1 id="app-title">SHANHAI LAB | 智能注单量化终端 V2.9 全模态版</h1>
+    <h1 id="app-title">SHANHAI LAB | 智能注单量化终端 V3.1 三擎版</h1>
 
     <div class="toolbar" data-html2canvas-ignore="true">
         <label style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; margin-right: auto;">
-            <input type="checkbox" id="reverse-data" checked> 原文数据倒序录入 (导入CSV时自动忽略)
+            <input type="checkbox" id="reverse-data" checked> 数据倒序排列 (自动适配最新在前)
         </label>
-        <button onclick="loadSampleData()">载入示例</button>
         <button onclick="clearData()" class="danger">清空缓存</button>
         <button onclick="exportCSV()">导出 CSV</button>
         <button onclick="copySummary()" class="success">📋 复制战报</button>
@@ -222,15 +217,10 @@
             <div class="kpi-title">凯利推荐 (KELLY)</div>
             <div class="kpi-value kelly-text"><span id="kpi-kelly">0.00%</span></div>
         </div>
-        
         <div class="kpi-card" style="border-color: rgba(163, 113, 247, 0.5);">
             <div class="kpi-title" style="color: var(--highlight);">明日动态调仓 (DYNAMIC)</div>
-            <div class="kpi-value highlight-text">
-                <span id="kpi-dynamic-sizing">-</span> 
-                <span class="kpi-sub" id="kpi-dynamic-sub">动量判定中</span>
-            </div>
+            <div class="kpi-value highlight-text"><span id="kpi-dynamic-sizing">-</span> <span class="kpi-sub" id="kpi-dynamic-sub">动量判定中</span></div>
         </div>
-        
         <div class="kpi-card">
             <div class="kpi-title">夏普比率 (SHARPE)</div>
             <div class="kpi-value highlight-text"><span id="kpi-sharpe">0.00</span></div>
@@ -251,8 +241,8 @@
 
     <div class="main-workspace">
         <div class="input-section" data-html2canvas-ignore="true">
-            <textarea id="raw-data" spellcheck="false" placeholder="请将注单文本粘贴于此...&#10;&#10;双引擎已启动：&#10;1. 支持网页复制的乱码原文。&#10;2. 支持直接全选粘贴导出的历史 CSV 内容进行无缝回测。"></textarea>
-            <button id="btn-analyze" onclick="analyzeData()" class="primary">⚡ 启动全模态量化解析</button>
+            <textarea id="raw-data" spellcheck="false" placeholder="请粘贴数据...&#10;&#10;三擎全模态已激活：&#10;1. 支持网页复制的乱码原文本&#10;2. 支持导出的 CSV 历史数据&#10;3. 【新增】支持经过「排版工具」整理后的纯文本卡片格式！"></textarea>
+            <button id="btn-analyze" onclick="analyzeData()" class="primary">⚡ 启动全模态三擎解析</button>
         </div>
         <div class="chart-section" id="charts-area">
             <div class="chart-box">
@@ -334,7 +324,6 @@
             return str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
-        // CSV 行解析辅助函数 (处理单元格内可能出现的逗号)
         function parseCSVLine(text) {
             let result = [];
             let startValueBndry = -1;
@@ -360,21 +349,9 @@
             }
         }
 
-        function loadSampleData() {
-            const sample = `
-序号,状态,时间,玩法分类,对阵,盘口,赔率,本金,单笔盈亏,累计净值
-1,赢,2026-04-21 02:52:05,大小球,"阿森纳 v 纽卡斯尔","小 3.5 @ 0.85",0.85,5000,4250.00,4250.00
-2,走水(亚退),2026-04-22 04:50:49,让分盘,"威尼斯 v 恩波利","让球 0 @ 0.95",0.95,4000,0,4250.00
-3,赢,2026-04-23 21:30:00,让分盘,"曼城 v 切尔西","曼城 -0.5 @ 1.05",1.05,5000,5250.00,9500.00
-4,输,2026-04-24 23:15:00,大小球,"皇马 v 巴萨","大 2.5 @ 0.80",0.8,5000,-5000.00,4500.00`.trim();
-            document.getElementById('raw-data').value = sample;
-            analyzeData();
-        }
-
         function copySummary() {
             const m = window.currentMetrics;
             if (!m || m.totalCount === 0) return alert("暂无数据可复制！");
-            
             const txt = `【山海实验室 | 策略量化测算战报】\n` +
                         `▶ 核心数学期望\n` +
                         `有效流水: ${m.totalTurnover.toFixed(2)} 元\n` +
@@ -413,9 +390,7 @@
                 scale: 2, 
                 useCORS: true,
                 logging: false,
-                ignoreElements: (element) => {
-                    return element.getAttribute('data-html2canvas-ignore') === 'true';
-                }
+                ignoreElements: (element) => element.getAttribute('data-html2canvas-ignore') === 'true'
             }).then(canvas => {
                 let imgData = canvas.toDataURL('image/png');
                 let link = document.createElement('a');
@@ -438,7 +413,7 @@
             const rawText = document.getElementById('raw-data').value;
             if (!rawText.trim()) return;
             
-            btn.disabled = true; btn.innerText = "数据引擎飞速运转中...";
+            btn.disabled = true; btn.innerText = "全模态三擎引擎运转中...";
             localStorage.setItem('shanhai_raw_data', rawText);
 
             setTimeout(() => {
@@ -448,54 +423,98 @@
                     const lines = text.split('\n').map(l => l.trim()).filter(l => l);
                     
                     const records = [];
-                    let isCSVMode = false;
+                    let isReversedAlready = false;
 
-                    // 判断是否为 CSV 格式粘贴
+                    // ==========================================
+                    // 引擎 1：CSV 历史数据解析
+                    // ==========================================
                     if (lines[0].includes('序号,状态,时间,玩法分类')) {
-                        isCSVMode = true;
+                        isReversedAlready = true; 
                         for (let i = 1; i < lines.length; i++) {
                             if (!lines[i].trim()) continue;
                             let cols = parseCSVLine(lines[i]);
-                            if (cols.length < 9) continue; // 忽略不完整的行
+                            if (cols.length < 9) continue; 
 
                             let bet = {
-                                time: cols[2],
-                                playType: cols[3],
-                                match: cols[4],
-                                selection: cols[5],
-                                odds: parseFloat(cols[6]) || null,
-                                amount: parseFloat(cols[7]),
-                                pnl: parseFloat(cols[8]),
-                                status: 'normal'
+                                time: cols[2], playType: cols[3], match: cols[4],
+                                selection: cols[5], odds: parseFloat(cols[6]) || null,
+                                amount: parseFloat(cols[7]), pnl: parseFloat(cols[8]), status: 'normal'
                             };
-
-                            // 解析 CSV 的状态名判定无效单
-                            if (cols[1].includes('退') || cols[1].includes('无效')) {
-                                bet.status = 'invalid';
-                                bet.pnl = 0;
-                            }
-
-                            // 提取日期用于热力图和连胜计算
+                            if (cols[1].includes('退') || cols[1].includes('无效')) { bet.status = 'invalid'; bet.pnl = 0; }
                             let timeMatch = bet.time.match(/(\d{4}[-/]\d{2}[-/]\d{2})/);
                             if (timeMatch) bet.date = timeMatch[1].replace(/\//g, '-');
-
                             records.push(bet);
                         }
-                    } else {
-                        // 经典网页原文本乱码解析模式
+                    } 
+                    // ==========================================
+                    // 引擎 2：【新增】排版工具纯文本解析
+                    // ==========================================
+                    else if (rawText.includes('【') && rawText.includes('对阵：') && rawText.includes('本金：')) {
+                        isReversedAlready = true; 
+                        let blocks = rawText.split('----------------------------------------');
+                        
+                        blocks.forEach(block => {
+                            let bLines = block.split('\n').map(l => l.trim()).filter(l => l);
+                            if(bLines.length < 4) return;
+                            
+                            let bet = { status: 'normal', playType: '其他盘口' };
+                            
+                            bLines.forEach(l => {
+                                if (l.startsWith('【')) {
+                                    let m = l.match(/【(.*?)】\s*([\d:]+)/);
+                                    if (m) { bet.league = m[1]; bet.time = m[2]; }
+                                } 
+                                else if (l.startsWith('对阵：')) {
+                                    bet.match = l.replace('对阵：', '').trim();
+                                } 
+                                else if (l.startsWith('盘口：')) {
+                                    let pRaw = l.replace('盘口：', '').trim();
+                                    let pParts = pRaw.split('@');
+                                    if(pParts.length === 2) {
+                                        bet.selection = pParts[0].trim();
+                                        bet.odds = parseFloat(pParts[1].trim());
+                                    } else {
+                                        bet.selection = pRaw;
+                                    }
+                                    
+                                    // 智能推断玩法
+                                    if (bet.selection.includes('大') || bet.selection.includes('小')) bet.playType = '大小球';
+                                    else if (bet.selection.includes('让球') || bet.selection.match(/[+-]\d/) || bet.selection.match(/^[+-]?\d$/)) bet.playType = '让分盘';
+                                    else if (bet.selection.includes('角球')) bet.playType = '角球盘';
+                                    else bet.playType = '欧盘/独赢';
+                                } 
+                                else if (l.startsWith('本金：')) {
+                                    let m = l.match(/本金：\s*([\d.]+).*盈亏：\s*([+\-\d.]+|注单平局)/);
+                                    if (m) {
+                                        bet.amount = parseFloat(m[1]);
+                                        if (m[2] === '注单平局') bet.pnl = 0;
+                                        else bet.pnl = parseFloat(m[2]);
+                                    }
+                                }
+                            });
+                            
+                            if (bet.amount !== undefined && bet.pnl !== undefined) records.push(bet);
+                        });
+                    }
+                    // ==========================================
+                    // 引擎 3：网页原始乱码文本防串位解析
+                    // ==========================================
+                    else {
                         for (let i = 0; i < lines.length; i++) {
                             if (lines[i].includes('赢 / 输:')) {
                                 let bet = { status: 'normal', playType: '其他盘口' };
                                 
-                                for (let j = i; j >= Math.max(0, i - 12); j--) {
+                                for (let j = i; j >= Math.max(0, i - 15); j--) {
                                     let l = lines[j];
-                                    if (l.match(/投注金额:\s*([\d.]+)/)) bet.amount = parseFloat(l.match(/投注金额:\s*([\d.]+)/)[1]);
-                                    else if (l.includes('@') && !l.includes('赢 / 输')) {
+                                    if (j !== i && l.includes('赢 / 输:')) break; 
+
+                                    if (bet.amount === undefined && l.match(/投注金额:\s*([\d.]+)/)) bet.amount = parseFloat(l.match(/投注金额:\s*([\d.]+)/)[1]);
+                                    else if (!bet.selection && l.includes('@') && !l.includes('赢 / 输')) {
                                         bet.selection = l;
                                         let oddsMatch = l.match(/@\s*([0-9.]+)/);
                                         if (oddsMatch) bet.odds = parseFloat(oddsMatch[1]);
                                     }
-                                    else if (l.includes(' v') && l.length < 80 && !l.match(/足球|篮球|大 \/ 小|让球|@|赢 \/ 输/)) {
+                                    else if (!bet.match && l.includes(' v') && l.length < 80 && !l.match(/足球|篮球|大 \/ 小|让球|@|赢 \/ 输/)) {
                                         bet.match = l;
                                     }
                                     
@@ -529,15 +548,12 @@
                     }
 
                     if (records.length === 0) {
-                        alert("⚠️ 未能提取到任何有效注单。\n请确保粘贴的是带有 '投注金额' 与 '赢/输' 的原网页文本，或者是包含标准表头的历史 CSV 数据。");
-                        btn.disabled = false; btn.innerText = "⚡ 启动全模态量化解析";
+                        alert("⚠️ 未能提取到任何有效数据。\n目前支持三种格式：\n1. 皇冠原生复制乱码\n2. 导出的CSV数据\n3. [新增] 格式化工具生成的排版文本");
+                        btn.disabled = false; btn.innerText = "⚡ 启动全模态三擎解析";
                         return;
                     }
 
-                    // 如果是直接粘贴的 CSV 数据，它本身已经按正确的发生顺序排列了，跳过翻转动作。
-                    if(!isCSVMode && document.getElementById('reverse-data').checked) {
-                        records.reverse();
-                    }
+                    if(!isReversedAlready && document.getElementById('reverse-data').checked) records.reverse();
                     
                     globalRecords = records;
                     renderDashboard();
@@ -546,7 +562,7 @@
                     alert("❌ 引擎出现错误：" + error.message);
                     console.error(error);
                 } finally {
-                    btn.disabled = false; btn.innerText = "⚡ 启动全模态量化解析";
+                    btn.disabled = false; btn.innerText = "⚡ 启动全模态三擎解析";
                 }
             }, 100); 
         }
