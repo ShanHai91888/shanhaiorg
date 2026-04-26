@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>山海实验室 | 智能注单量化终端 V3.1 三擎版</title>
+    <title>山海实验室 | 智能注单量化终端 V3.2 时间校准版</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
@@ -184,11 +184,11 @@
 </head>
 <body>
 
-    <h1 id="app-title">SHANHAI LAB | 智能注单量化终端 V3.1 三擎版</h1>
+    <h1 id="app-title">SHANHAI LAB | 智能注单量化终端 V3.2 时间校准版</h1>
 
     <div class="toolbar" data-html2canvas-ignore="true">
         <label style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; margin-right: auto;">
-            <input type="checkbox" id="reverse-data" checked> 数据倒序排列 (自动适配最新在前)
+            <input type="checkbox" id="reverse-data" checked> 原数据为最新在前（勾选后自动翻转为时间正序）
         </label>
         <button onclick="clearData()" class="danger">清空缓存</button>
         <button onclick="exportCSV()">导出 CSV</button>
@@ -226,7 +226,7 @@
             <div class="kpi-value highlight-text"><span id="kpi-sharpe">0.00</span></div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-title">最大回撤</div>
+            <div class="kpi-title">历史最大回撤</div>
             <div class="kpi-value loss-text"><span id="kpi-drawdown">0.00</span></div>
         </div>
         <div class="kpi-card">
@@ -241,8 +241,8 @@
 
     <div class="main-workspace">
         <div class="input-section" data-html2canvas-ignore="true">
-            <textarea id="raw-data" spellcheck="false" placeholder="请粘贴数据...&#10;&#10;三擎全模态已激活：&#10;1. 支持网页复制的乱码原文本&#10;2. 支持导出的 CSV 历史数据&#10;3. 【新增】支持经过「排版工具」整理后的纯文本卡片格式！"></textarea>
-            <button id="btn-analyze" onclick="analyzeData()" class="primary">⚡ 启动全模态三擎解析</button>
+            <textarea id="raw-data" spellcheck="false" placeholder="请粘贴数据..."></textarea>
+            <button id="btn-analyze" onclick="analyzeData()" class="primary">⚡ 启动全模态时间轴推演</button>
         </div>
         <div class="chart-section" id="charts-area">
             <div class="chart-box">
@@ -281,14 +281,14 @@
         </div>
 
         <div data-html2canvas-ignore="true">
-            <div class="section-header">📝 订单逐笔明细</div>
+            <div class="section-header">📝 订单逐笔明细 (时间正序排列)</div>
             <div class="table-section">
                 <table>
                     <thead>
                         <tr>
                             <th>序号</th>
                             <th>状态</th>
-                            <th>时间</th>
+                            <th>提取时间</th>
                             <th>玩法分类</th>
                             <th>对阵双方</th>
                             <th>盘口/赔率</th>
@@ -360,8 +360,9 @@
                         `▶ 风险控制与动态仓位\n` +
                         `反马丁格尔指示: ${m.dynamicSignal}\n` +
                         `凯利推荐仓位: ${m.kellyStr}\n` +
+                        `历史最大回撤: -${m.maxDrawdown.toFixed(2)}\n` +
                         `夏普比率: ${m.sharpeRatio} | 回报率: ${m.yieldRate}%\n`;
-            navigator.clipboard.writeText(txt).then(() => alert('📋 战报文本已复制！')).catch(() => alert('浏览器安全限制，请手动截图。'));
+            navigator.clipboard.writeText(txt).then(() => alert('📋 战报文本已复制！')).catch(() => alert('请手动截图。'));
         }
 
         function exportCSV() {
@@ -413,7 +414,7 @@
             const rawText = document.getElementById('raw-data').value;
             if (!rawText.trim()) return;
             
-            btn.disabled = true; btn.innerText = "全模态三擎引擎运转中...";
+            btn.disabled = true; btn.innerText = "时间轴引擎校准中...";
             localStorage.setItem('shanhai_raw_data', rawText);
 
             setTimeout(() => {
@@ -425,9 +426,7 @@
                     const records = [];
                     let isReversedAlready = false;
 
-                    // ==========================================
-                    // 引擎 1：CSV 历史数据解析
-                    // ==========================================
+                    // 引擎 1：CSV 历史数据 (已经是时间正序，跳过翻转)
                     if (lines[0].includes('序号,状态,时间,玩法分类')) {
                         isReversedAlready = true; 
                         for (let i = 1; i < lines.length; i++) {
@@ -446,11 +445,10 @@
                             records.push(bet);
                         }
                     } 
-                    // ==========================================
-                    // 引擎 2：【新增】排版工具纯文本解析
-                    // ==========================================
+                    // 引擎 2：排版工具纯文本 (通常是最新在前，需要听从 checkbox 翻转)
                     else if (rawText.includes('【') && rawText.includes('对阵：') && rawText.includes('本金：')) {
-                        isReversedAlready = true; 
+                        // 【核心修复】这里不再强制 true，允许被 checkbox 翻转！
+                        isReversedAlready = false; 
                         let blocks = rawText.split('----------------------------------------');
                         
                         blocks.forEach(block => {
@@ -477,7 +475,6 @@
                                         bet.selection = pRaw;
                                     }
                                     
-                                    // 智能推断玩法
                                     if (bet.selection.includes('大') || bet.selection.includes('小')) bet.playType = '大小球';
                                     else if (bet.selection.includes('让球') || bet.selection.match(/[+-]\d/) || bet.selection.match(/^[+-]?\d$/)) bet.playType = '让分盘';
                                     else if (bet.selection.includes('角球')) bet.playType = '角球盘';
@@ -496,10 +493,9 @@
                             if (bet.amount !== undefined && bet.pnl !== undefined) records.push(bet);
                         });
                     }
-                    // ==========================================
-                    // 引擎 3：网页原始乱码文本防串位解析
-                    // ==========================================
+                    // 引擎 3：网页原始乱码文本防串位解析 (通常是最新在前，需要翻转)
                     else {
+                        isReversedAlready = false; 
                         for (let i = 0; i < lines.length; i++) {
                             if (lines[i].includes('赢 / 输:')) {
                                 let bet = { status: 'normal', playType: '其他盘口' };
@@ -548,12 +544,15 @@
                     }
 
                     if (records.length === 0) {
-                        alert("⚠️ 未能提取到任何有效数据。\n目前支持三种格式：\n1. 皇冠原生复制乱码\n2. 导出的CSV数据\n3. [新增] 格式化工具生成的排版文本");
-                        btn.disabled = false; btn.innerText = "⚡ 启动全模态三擎解析";
+                        alert("⚠️ 未能提取到任何有效数据。\n请检查文本格式。");
+                        btn.disabled = false; btn.innerText = "⚡ 启动全模态时间轴推演";
                         return;
                     }
 
-                    if(!isReversedAlready && document.getElementById('reverse-data').checked) records.reverse();
+                    // 【最终校准】如果不受 CSV 锁限制，且用户打勾了，强制翻转时间轴（老在最前）
+                    if(!isReversedAlready && document.getElementById('reverse-data').checked) {
+                        records.reverse();
+                    }
                     
                     globalRecords = records;
                     renderDashboard();
@@ -562,7 +561,7 @@
                     alert("❌ 引擎出现错误：" + error.message);
                     console.error(error);
                 } finally {
-                    btn.disabled = false; btn.innerText = "⚡ 启动全模态三擎解析";
+                    btn.disabled = false; btn.innerText = "⚡ 启动全模态时间轴推演";
                 }
             }, 100); 
         }
@@ -582,14 +581,6 @@
             let tableHTML = '';
 
             let maxDrawdown = 0, peak = 0, runningPnl = 0;
-            globalRecords.forEach(r => {
-                if (r.status !== 'invalid') {
-                    runningPnl += r.pnl;
-                    if (runningPnl > peak) peak = runningPnl;
-                    let dd = peak - runningPnl;
-                    if (dd > maxDrawdown) maxDrawdown = dd;
-                }
-            });
 
             globalRecords.forEach((record, index) => {
                 if (record.time && record.status !== 'invalid') {
@@ -632,7 +623,14 @@
                 else if (record.status === 'loss') { losses++; totalTurnover += record.amount; } 
                 else if (record.status === 'push') { pushes++; }
 
-                totalPnl += record.pnl;
+                // 计算精准回撤 (必须按正确的时间轴)
+                if(record.status !== 'invalid') {
+                    totalPnl += record.pnl;
+                    if (totalPnl > peak) peak = totalPnl;
+                    let dd = peak - totalPnl;
+                    if (dd > maxDrawdown) maxDrawdown = dd;
+                }
+
                 chartDates.push(record.time || `#${index+1}`);
                 chartEquity.push(totalPnl.toFixed(2));
 
@@ -735,7 +733,7 @@
             window.currentMetrics = {
                 totalCount: globalRecords.length,
                 totalPnl, totalTurnover, yieldRate, winRate: winRateStr, undefeatedRate: undefeatedRateStr,
-                avgOdds: avgOddsStr, sharpeRatio: sharpeRatioStr, kellyStr, dynamicSignal
+                avgOdds: avgOddsStr, sharpeRatio: sharpeRatioStr, kellyStr, dynamicSignal, maxDrawdown
             };
 
             const setKpiColor = (id, val, isPnl) => {
