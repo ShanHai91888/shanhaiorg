@@ -339,13 +339,36 @@
             return result.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
         }
 
+        function resetDashboardUI() {
+            document.getElementById('kpi-profit').innerText = '0.00';
+            document.getElementById('kpi-profit').className = '';
+            document.getElementById('kpi-winrate').innerText = '0.00%';
+            document.getElementById('kpi-undefeated').innerText = '0.00%';
+            document.getElementById('kpi-avg-odds').innerText = '0.000';
+            document.getElementById('kpi-kelly').innerText = '0.00%';
+            document.getElementById('kpi-dynamic-sizing').innerText = '-';
+            document.getElementById('kpi-dynamic-sizing').style.color = 'var(--text-main)';
+            document.getElementById('kpi-dynamic-sub').innerText = '动量判定中';
+            document.getElementById('kpi-sharpe').innerText = '0.00';
+            document.getElementById('kpi-drawdown').innerText = '0.00';
+            document.getElementById('kpi-yield').innerText = '0.00%';
+            document.getElementById('kpi-yield').className = '';
+            document.getElementById('kpi-count').innerText = '0';
+
+            document.getElementById('strategy-body').innerHTML = '<tr><td colspan="8" style="text-align:center; color:#888;">请解析数据</td></tr>';
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="9" style="text-align:center; color:#888;">暂无数据</td></tr>';
+
+            myChart.clear();
+            hourlyChart.clear();
+        }
+
         function clearData() {
             if(confirm("确定清空所有数据和缓存吗？")) {
                 document.getElementById('raw-data').value = '';
                 localStorage.removeItem('shanhai_raw_data');
                 globalRecords = [];
                 window.currentMetrics = null;
-                renderDashboard();
+                resetDashboardUI();
             }
         }
 
@@ -412,12 +435,15 @@
         function analyzeData() {
             const btn = document.getElementById('btn-analyze');
             const rawText = document.getElementById('raw-data').value;
-            if (!rawText.trim()) return;
+            if (!rawText.trim()) {
+                alert("请先粘贴需要解析的数据。");
+                return;
+            }
             
             btn.disabled = true; btn.innerText = "时间轴引擎校准中...";
             localStorage.setItem('shanhai_raw_data', rawText);
 
-            setTimeout(() => {
+            requestAnimationFrame(() => requestAnimationFrame(() => {
                 try {
                     let text = rawText.replace(/赢\s*\n*\s*\/\s*输:/g, '赢 / 输:');
                     text = text.replace(/(\d),(\d{3})/g, '$1$2'); 
@@ -563,7 +589,7 @@
                 } finally {
                     btn.disabled = false; btn.innerText = "⚡ 启动全模态时间轴推演";
                 }
-            }, 100); 
+            })); 
         }
 
         function renderDashboard() {
@@ -640,6 +666,7 @@
                 else if (record.status === 'push') { badge = '<span class="badge badge-push">走水</span>'; pnlColor = 'var(--warning)';}
                 else { badge = '<span class="badge badge-invalid">退单</span>'; }
                 
+                const displayAmount = Number(record.amount || 0);
                 tableHTML += `
                     <tr>
                         <td>${index + 1}</td>
@@ -648,7 +675,7 @@
                         <td><span class="badge badge-type">${record.playType}</span></td>
                         <td>${escapeHTML(record.match) || '-'}</td>
                         <td style="color:var(--accent)">${escapeHTML(record.selection) || '-'}</td>
-                        <td>${record.amount.toFixed(2)}</td>
+                        <td>${displayAmount.toFixed(2)}</td>
                         <td style="color:${pnlColor}; font-weight:600;">${pnlSign}${record.pnl.toFixed(2)}</td>
                         <td>${totalPnl.toFixed(2)}</td>
                     </tr>
@@ -791,17 +818,36 @@
                 series: [{
                     name: '时段盈亏', type: 'bar',
                     data: hourlyPnL.map(v => ({
-                        value: v.toFixed(2),
+                        value: Number(v.toFixed(2)),
                         itemStyle: { color: v >= 0 ? '#2ea043' : '#f85149' }
                     }))
                 }]
             }, true);
         }
 
-        window.addEventListener('resize', () => {
+        function throttle(fn, wait = 120) {
+            let timer = null;
+            let pending = false;
+            return (...args) => {
+                if (timer) {
+                    pending = true;
+                    return;
+                }
+                fn(...args);
+                timer = setTimeout(() => {
+                    timer = null;
+                    if (pending) {
+                        pending = false;
+                        fn(...args);
+                    }
+                }, wait);
+            };
+        }
+
+        window.addEventListener('resize', throttle(() => {
             myChart.resize();
             hourlyChart.resize();
-        });
+        }, 120));
     </script>
 </body>
 </html>
