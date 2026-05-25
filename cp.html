@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP V22.4.3 | 路数核验修正版</title>
+<title>SOP V22.2.4 Stable | 手动种子上一期版</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -27,7 +27,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 <header class="mb-5 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
 <div>
 <div class="text-xs tracking-[.25em] text-indigo-500 font-bold uppercase">SOP LEGEND TERMINAL</div>
-<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.4.3 路数核验修正版 · 时时彩五位自动择优</h1>
+<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.2.4 Stable 手动种子上一期版 · 时时彩五位自动择优</h1>
 <p class="text-sm text-slate-500 mt-1">去复式框架版：取消已取消复式框架递推安全双码，不再产生 复式框架已取消 盲区；保留 A+B=C / A-B=C 递推形态、两码合差积、012路、跨度、形态与回补池。</p>
 </div>
 <div id="ticker" class="mono text-xs bg-slate-900 text-slate-200 rounded-xl px-4 py-3 shadow">&gt; 正在初始化...</div>
@@ -45,7 +45,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 <div class="grid grid-cols-2 gap-3 mt-3">
 <div><label class="text-[11px] font-bold text-slate-500">时时彩模式</label><select id="tripleMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动择优 · 3星前三/中三/后三</option><option value="auto2">自动择优 · 2星十个位置</option><option value="auto4">自动择优 · 4星前4/后4</option><option value="front3">3星前三 · 万千百</option><option value="middle3">3星中三 · 千百十</option><option value="back3">3星后三 · 百十个</option><option value="p01">2星万千</option><option value="p02">2星万百</option><option value="p03">2星万十</option><option value="p04">2星万个</option><option value="p12">2星千百</option><option value="p13">2星千十</option><option value="p14">2星千个</option><option value="p23">2星百十</option><option value="p24">2星百个</option><option value="p34">2星十个</option><option value="front4">4星前4 · 万千百十</option><option value="back4">4星后4 · 千百十个</option><option value="five5">5星 · 万千百十个</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">注数档位</label><select id="tierMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动风控 · 79/699/799</option><option value="random69">2星纯随机 · 69</option><option value="random79">2星纯随机 · 79</option><option value="random799">3星纯随机 · 799</option><option value="random699">3星纯随机 · 699</option><option value="random7999">4星纯随机 · 7999</option><option value="random79999">5星纯随机 · 79999</option><option value="799">3星极稳覆盖 · 799</option><option value="699">3星标准覆盖 · 699</option></select></div>
-<div><label class="text-[11px] font-bold text-slate-500">随机种子</label><select id="seedMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动择优</option><option value="s5">近5期</option><option value="s5_10">近5 + 近10</option><option value="s5_10_20">近5 + 近10 + 近20</option></select></div>
+<div><label class="text-[11px] font-bold text-slate-500">随机种子</label><select id="seedMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="s1" selected>上一期</option><option value="s5">近5期</option><option value="s5_10">近5 + 近10</option><option value="s5_10_20">近5 + 近10 + 近20</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">数据顺序</label><select id="orderMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="oldNew" selected>旧 → 新</option><option value="newOld">新 → 旧，自动反转</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">覆盖模式</label><select id="compressionMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="highWin" selected>高频覆盖</option><option value="off">关闭压缩 · 原始大底</option></select></div>
 <label class="flex items-center gap-2 text-xs text-slate-600"><input id="enableAutoDan" type="checkbox" checked class="accent-indigo-600">兼容字段加权</label>
@@ -79,7 +79,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 </div>
 </section>
 
-<section id="scorePanel" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 A 分</div><div id="scoreA" class="text-3xl font-black mono text-indigo-600">--</div><div id="killA" class="text-xs text-slate-500"></div></div>
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 B 分</div><div id="scoreB" class="text-3xl font-black mono text-indigo-600">--</div><div id="killB" class="text-xs text-slate-500"></div></div>
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 C 分</div><div id="scoreC" class="text-3xl font-black mono text-indigo-600">--</div><div id="killC" class="text-xs text-slate-500"></div></div>
@@ -129,7 +129,10 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 
 <section id="twoStarRoadPanel" class="hidden glass rounded-2xl shadow-sm border border-white p-4">
   <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-    <h2 class="font-black text-slate-800">二星自动择优 · 全部位置最近60期路数</h2>
+    <div>
+      <h2 class="font-black text-slate-800">二星十个位置 · 最近60期路数图</h2>
+      <div class="text-xs text-slate-500 mt-1">仅在输入五位开奖号时显示；用于横向观察十个二星位置的中挂节奏。</div>
+    </div>
     <span id="twoStarRoadSummary" class="chip mono">2STAR ROADS</span>
   </div>
   <div id="twoStarRoadGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
@@ -178,7 +181,7 @@ function pct(v){return (v*100).toFixed(1)+'%';}
 function tick(h){if(D.ticker)D.ticker.innerHTML=h;}
 
 function initDom(){
-  'dataInput,tripleMode,tierMode,seedMode,orderMode,compressionMode,enableAutoDan,enableCircuit,enableKillTriplet,scanBtn,backtestBtn,copyBtn,exportCsvBtn,ticker,inputHint,modeBadge,modelExplain,currentPosition,currentPositionSub,currentPositionBadge,scorePanel,scoreA,scoreB,scoreC,killA,killB,killC,visualPanel,visualMode,roadBoard,trendRoad,bigEyeRoad,smallRoad,cockroachRoad,factorRoad,sideRoadAdvice,twoStarRoadPanel,twoStarRoadGrid,twoStarRoadSummary,nearStats,equityChart,riskPanel,genTitle,genSub,numbersBox,backtestReport,btMode,btTotal,btHits,btRate,btPnl,btAvg,btDD,candidateReport,tradeRecordPanel,tradeRecordBody,recordSummary'.split(',').forEach(function(id){D[id]=g(id);});
+  'dataInput,tripleMode,tierMode,seedMode,orderMode,compressionMode,enableAutoDan,enableCircuit,enableKillTriplet,scanBtn,backtestBtn,copyBtn,exportCsvBtn,ticker,inputHint,modeBadge,modelExplain,currentPosition,currentPositionSub,currentPositionBadge,scoreA,scoreB,scoreC,killA,killB,killC,visualPanel,visualMode,roadBoard,trendRoad,bigEyeRoad,smallRoad,cockroachRoad,factorRoad,sideRoadAdvice,twoStarRoadPanel,twoStarRoadGrid,twoStarRoadSummary,nearStats,equityChart,riskPanel,genTitle,genSub,numbersBox,backtestReport,btMode,btTotal,btHits,btRate,btPnl,btAvg,btDD,candidateReport,tradeRecordPanel,tradeRecordBody,recordSummary'.split(',').forEach(function(id){D[id]=g(id);});
 }
 function opts(){return{tripleMode:D.tripleMode.value,tierMode:D.tierMode.value,seedMode:D.seedMode.value,orderMode:D.orderMode.value,compressionMode:D.compressionMode.value,autoDan:D.enableAutoDan.checked,circuit:D.enableCircuit.checked,killTriplet:D.enableKillTriplet.checked};}
 
@@ -373,10 +376,12 @@ var Engine={
   },
   randomSeedContext:function(rows,opt,target){
     /*
-      V22.2 随机种子：
-      seedMode 可选 auto / s5 / s5_10 / s5_10_20。
-      auto 会先由 SeedAuto.resolve 解析为具体种子，再进入这里。
-      最终统一加入 当前模式 + 档位 + π动态片段。
+      V22.2.4 手动随机种子：
+      s1       = 上一期完整号
+      s5       = 近5期完整号
+      s5_10    = 近5期完整号 + 近10期轻摘要
+      s5_10_20 = 近5期完整号 + 近10期轻摘要 + 近20期轻摘要
+      不再自动择优种子。最终统一加入 当前模式 + 档位 + π动态片段。
     */
     rows=rows||[];
     function joinRows(arr){return arr.map(function(r){return r.join('');}).join('-');}
@@ -398,9 +403,11 @@ var Engine={
       var topRoutes=Object.keys(route).sort(function(a,b){return route[b]-route[a];}).slice(0,5).join(',');
       return 'st='+sumTail.join('')+'|bs='+(big-small)+'|oe='+(odd-even)+'|rt='+topRoutes+'|sp='+Math.round(spanSum/Math.max(arr.length,1))+'|sh='+shape.baozi+'-'+shape.zusan+'-'+shape.zuliu+'|hot='+hot+'|cold='+cold;
     }
-    var seedMode=(opt&&opt.resolvedSeedMode)||(opt&&opt.seedMode)||'s5';
-    if(seedMode==='auto')seedMode='s5_10';
-    var parts=['modeSeed='+seedMode,'r5='+joinRows(rows.slice(-5))];
+    var seedMode=(opt&&opt.resolvedSeedMode)||(opt&&opt.seedMode)||'s1';
+    if(seedMode==='auto')seedMode='s1';
+    var parts=['modeSeed='+seedMode];
+    if(seedMode==='s1')parts.push('r1='+joinRows(rows.slice(-1)));
+    else parts.push('r5='+joinRows(rows.slice(-5)));
     if(seedMode==='s5_10'||seedMode==='s5_10_20')parts.push('s10='+summarize(rows.slice(-10)));
     if(seedMode==='s5_10_20')parts.push('s20='+summarize(rows.slice(-20)));
     var mode=(opt&&opt.currentMode)||'unknown';
@@ -622,39 +629,7 @@ var Engine={
     var nums=base.slice().sort(function(a,b){
       return Engine.poolRand(b,ctx,phase)-Engine.poolRand(a,ctx,phase);
     }).slice(0,target);
-    return{nums:nums,base:base,prof:{dan:[],routes:[],routeMap:{}},last:last,pred:{entropy:0,plan:{text:'纯随机'+target+'：'+len+'星，种子=最近5期+模式+档位+π'},a:{score:0,target:'-'},b:{score:0,target:'-'},c:{score:0,target:'-'}},scored:[],seedContext:ctx};
-  },
-  fastRandomHit:function(rows,opt,target,actual){
-    /*
-      快速路数/自动择优专用：
-      不生成完整号码文本，但按 pureRandom 的同一随机分数排序规则做“精确排名核验”。
-      也就是：开奖号在全空间随机排序中的名次 <= target，则视为进入大底。
-      这样路数中挂与当时根据 hist 生成的大底口径一致。
-    */
-    target=Number(target)||799;
-    actual=String(actual||'');
-    var len=(rows&&rows[0]&&rows[0].length)||actual.length||3;
-    actual=actual.padStart(len,'0');
-    var baseLen=Math.pow(10,len);
-    target=Math.min(target,baseLen);
-    var ctx=Engine.randomSeedContext(rows,opt,target),phase='pure'+target+'_'+len;
-    var actualScore=Engine.poolRand(actual,ctx,phase);
-    var actualIndex=Number(actual);
-    var better=0;
-    for(var i=0;i<baseLen;i++){
-      var cand=String(i).padStart(len,'0');
-      var sc=Engine.poolRand(cand,ctx,phase);
-      // pureRandom 排序按分数降序；同分时保留原始000..999顺序。
-      if(sc>actualScore || (sc===actualScore && i<actualIndex)){
-        better++;
-        if(better>=target)return false;
-      }
-    }
-    return true;
-  },
-  shouldUseFastRandom:function(rows,opt,target){
-    var len=(rows&&rows[0]&&rows[0].length)||3;
-    return len!==3 || (opt&&String(opt.tierMode||'').indexOf('random')===0) || target>=5000;
+    return{nums:nums,base:base,prof:{dan:[],routes:[],routeMap:{}},last:last,pred:{entropy:0,plan:{text:'纯随机'+target+'：'+len+'星，种子=手动选择+模式+档位+π'},a:{score:0,target:'-'},b:{score:0,target:'-'},c:{score:0,target:'-'}},scored:[],seedContext:ctx};
   },
   numbers:function(rows,pred,opt,target){
     if(rows&&rows[0]&&rows[0].length===2)return Engine.pureRandom(rows,target||79,opt);
@@ -751,50 +726,6 @@ function recentStats(log){
   var avgStake=r20.length?Math.round(r20.reduce(function(a,b){return a+(b.stake||699);},0)/r20.length):699;
   return{r10:div(h10,r10.length),r20:div(h20,r20.length),currentType:cur,currentStreak:cs,maxLoss:maxLoss,pnl15:pnl15,dd20:Math.round(dd),roadStrength:div(weighted,ws),ev20:C.payout*div(h20,r20.length)-avgStake,avgStake:avgStake};
 }
-function stateScoreFromLog(log){
-  /*
-    V22.4 顺势修复平衡：
-    不再过早惩罚长连中；优先保留健康顺势段，同时识别“挂后2中 / 2挂后2中”的修复启动。
-    只有过热很长、最新已挂、跳路严重、近5有2挂未修复时才明显降权。
-  */
-  var arr=(log||[]).filter(function(x){return x.status==='hit'||x.status==='miss';});
-  if(!arr.length)return{score:0,label:'状态样本不足',tags:[]};
-  var r5=arr.slice(-5),r10=arr.slice(-10),r20=arr.slice(-20);
-  function hitRate(a){return div(a.filter(function(x){return x.status==='hit';}).length,a.length);}
-  function switches(a){var n=0;for(var i=1;i<a.length;i++){if(a[i].status!==a[i-1].status)n++;}return n;}
-  function currentStreak(){
-    var last=arr[arr.length-1].status,c=0;
-    for(var i=arr.length-1;i>=0;i--){if(arr[i].status===last)c++;else break;}
-    return{type:last,n:c};
-  }
-  function patternStr(a){return a.map(function(x){return x.status==='hit'?'中':'挂';}).join('');}
-  var score=0,tags=[],p5=patternStr(r5),hr10=hitRate(r10),hr20=hitRate(r20),sw10=switches(r10),cur=currentStreak();
-
-  if(/挂中中$/.test(p5)){score+=10;tags.push('挂后2中+10');}
-  if(/挂挂中中$/.test(p5)){score+=12;tags.push('2挂后2中+12');}
-  if(hr10>=0.70){score+=8;tags.push('近10≥70%+8');}
-  if(hr20>=0.70){score+=10;tags.push('近20≥70%+10');}
-  else if(hr20>=0.60){score+=4;tags.push('近20 60~70%+4');}
-  else if(r20.length>=10){score-=10;tags.push('近20<60%-10');}
-
-  if(cur.type==='hit'&&cur.n>=3&&cur.n<=6){score+=12;tags.push('顺势连中3~6+12');}
-  else if(cur.type==='hit'&&cur.n>=7&&cur.n<=10){score+=8;tags.push('顺势连中7~10+8');}
-  else if(cur.type==='hit'&&cur.n>=11&&cur.n<=15){score+=3;tags.push('长连中11~15+3');}
-  else if(cur.type==='hit'&&cur.n>=16){score-=5;tags.push('超长连中≥16-5');}
-
-  if(cur.type==='miss'){score-=15;tags.push('最新已挂-15');}
-  if(sw10>=6){score-=12;tags.push('近10跳路≥6-12');}
-  var miss5=r5.filter(function(x){return x.status==='miss';}).length;
-  if(miss5>=2 && !/中中$/.test(p5)){score-=20;tags.push('近5有2挂未修复-20');}
-
-  if(!tags.length)tags.push('中性状态');
-  return{score:score,label:tags.join(' ｜ '),tags:tags,hr10:hr10,hr20:hr20,sw10:sw10,current:cur};
-}
-function stateScoreText(log){
-  var s=stateScoreFromLog(log);
-  return '状态分 '+s.score.toFixed(1)+' ｜ '+s.label;
-}
-
 function nearScore(st,rate){
   /*
     流水优先择优评分：
@@ -834,7 +765,7 @@ var Backtest={
   pack:function(t,log,balance,hits,total,skips,betSum){
     var rate=div(hits,total),avg=(total+skips)?Math.round(betSum/(total+skips)):0,st=recentStats(log),dd=0,peak=C.bank;
     log.forEach(function(x){peak=Math.max(peak,x.balance);dd=Math.max(dd,peak-x.balance);});
-    return{mode:t.mode,label:t.label,displayMode:t.label,log:log,tradeLog:log,hits:hits,total:total,skips:skips,rate:rate,balance:balance,avg:avg,maxDD:Math.round(dd),recent:st,nearScore:nearScore(st,rate)+stateScoreFromLog(log).score,ev20:st.ev20,be:(avg||699)/payoutByStake(avg||699),adaptiveText:adaptiveText(log)+'；'+stateScoreText(log),factorState:Engine.factorState(log)};
+    return{mode:t.mode,label:t.label,displayMode:t.label,log:log,tradeLog:log,hits:hits,total:total,skips:skips,rate:rate,balance:balance,avg:avg,maxDD:Math.round(dd),recent:st,nearScore:nearScore(st,rate),ev20:st.ev20,be:(avg||699)/payoutByStake(avg||699),adaptiveText:adaptiveText(log),factorState:Engine.factorState(log)};
   },
   run:function(raw,opt){
     var modes=(opt.tripleMode==='auto'||opt.tripleMode==='auto2'||opt.tripleMode==='auto4')?Data.modes(raw,opt.tripleMode):[opt.tripleMode],res=modes.map(function(m){return Backtest.single(raw,opt,m);});
@@ -846,7 +777,7 @@ var Backtest={
     res.sort(function(a,b){return b.nearScore-a.nearScore||b.ev20-a.ev20||a.maxDD-b.maxDD;});
     res[0].candidates=res;
     res[0].displayMode='AUTO → 动态影子择优';
-    res[0].autoTimeline=Backtest.timelineShadow(raw,opt,'auto');
+    res[0].autoTimeline=Backtest.timelineShadow(raw,opt,opt.tripleMode);
     Backtest.applyTimeline(res[0]);
     return res[0];
   },
@@ -869,7 +800,7 @@ var Backtest={
         var histRaw=raw.slice(0,i+1),t=Data.triple(histRaw,m),rows=t.rows,pred=Engine.predict(rows),st=recentStats(shadow[m]),tier=Engine.tier(opt,st);if(rows[0]&&rows[0].length===2&&opt.tierMode==='auto')tier=79;var seedInfo=SeedAuto.resolve(histRaw,opt,m,tier),opt2=Object.assign({},opt,{factorState:Engine.factorState(shadow[m]),currentMode:m,resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo)}),pack=Engine.numbers(rows,pred,opt2,tier),fullActual=Data.rowStr(raw[i+1]),future=Data.triple([raw[i+1]],m).rows[0],actual=Data.rowStr(future),simHit=pack.nums.indexOf(actual)>=0,stake=pack.nums.length;
         var payout=payoutByLen(rows[0]&&rows[0].length||3),pnl=simHit?payout-stake:-stake;
         var attr=simHit?'命中覆盖':Engine.attribution(actual,pack,pack.prof);
-        var score=nearScore(st,div(shadow[m].filter(function(x){return x.status==='hit';}).length,shadow[m].filter(function(x){return x.status!=='skip';}).length))+stateScoreFromLog(shadow[m]).score;
+        var score=nearScore(st,div(shadow[m].filter(function(x){return x.status==='hit';}).length,shadow[m].filter(function(x){return x.status!=='skip';}).length));
         candidates[m]={idx:i+2,basedOn:i+1,mode:m,label:t.label,fullActual:fullActual,sliceActual:actual,actual:actual,verify:simHit?'进入大底':'未进入大底',status:simHit?'hit':'miss',pnl:pnl,reason:'影子模拟',stake:stake,simHit:simHit,attr:attr,score:score,pack:pack};
       });
 
@@ -882,12 +813,12 @@ var Backtest={
       modes.forEach(function(m){
         var c=candidates[m], pnl=c.pnl;
         shadowBalance[m]+=pnl;
-        shadow[m].push({idx:c.idx,basedOn:c.basedOn,mode:m,label:c.label,fullActual:c.fullActual,sliceActual:c.sliceActual,actual:c.actual,verify:c.verify,status:c.status,pnl:pnl,balance:shadowBalance[m],reason:'影子模拟',stake:c.stake,simHit:c.simHit,attr:c.attr,stateText:stateScoreText(shadow[m])});
+        shadow[m].push({idx:c.idx,basedOn:c.basedOn,mode:m,label:c.label,fullActual:c.fullActual,sliceActual:c.sliceActual,actual:c.actual,verify:c.verify,status:c.status,pnl:pnl,balance:shadowBalance[m],reason:'影子模拟',stake:c.stake,simHit:c.simHit,attr:c.attr});
       });
 
       var ch=candidates[chosen], realPnl=ch.pnl;
       actualBalance+=realPnl;
-      out.push({idx:ch.idx,basedOn:ch.basedOn,mode:chosen,label:ch.label,switched:lastMode!==null&&lastMode!==chosen,fullActual:ch.fullActual,sliceActual:ch.sliceActual,actual:ch.actual,verify:ch.verify,status:ch.status,pnl:realPnl,balance:actualBalance,reason:'自动择优 · 影子分 '+ch.score.toFixed(1)+' · '+stateScoreText(shadow[chosen]),stake:ch.stake,simHit:ch.simHit,attr:ch.attr,stateText:stateScoreText(shadow[chosen])});
+      out.push({idx:ch.idx,basedOn:ch.basedOn,mode:chosen,label:ch.label,switched:lastMode!==null&&lastMode!==chosen,fullActual:ch.fullActual,sliceActual:ch.sliceActual,actual:ch.actual,verify:ch.verify,status:ch.status,pnl:realPnl,balance:actualBalance,reason:'自动择优 · 影子分 '+ch.score.toFixed(1),stake:ch.stake,simHit:ch.simHit,attr:ch.attr});
       lastMode=chosen;
     }
     out.shadowLogs=shadow;
@@ -998,21 +929,17 @@ var Render={
     if(D.currentPosition){
       D.currentPosition.textContent=selectedPositionText(r.t.mode);
       D.currentPositionBadge.textContent=selectedPositionBadge(r.t.mode,r.target);
-      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+(r.opt&&r.opt.seedMode==='auto'?'自动→'+SeedAuto.label(r.opt.resolvedSeedMode):(r.opt&&r.opt.seedMode?r.opt.seedMode:'s5'))+' ｜ 择优分 '+((r.opt&&r.opt.autoModeScore!=null)?r.opt.autoModeScore.toFixed(1):'-');
+      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+SeedAuto.label((r.opt&&r.opt.resolvedSeedMode)||(r.opt&&r.opt.seedMode)||'s1');
     }
-    var is3=(r.rows&&r.rows[0]&&r.rows[0].length===3);
-    if(D.scorePanel)D.scorePanel.classList.toggle('hidden',!is3);
-    if(is3){
-      D.scoreA.textContent=(r.pred.a&&r.pred.a.score)||0;D.scoreB.textContent=(r.pred.b&&r.pred.b.score)||0;D.scoreC.textContent=(r.pred.c&&r.pred.c.score)||0;
-      D.killA.textContent='递推杀 '+(r.pred.a&&r.pred.a.target);D.killB.textContent='递推杀 '+(r.pred.b&&r.pred.b.target);D.killC.textContent='递推杀 '+(r.pred.c&&r.pred.c.target);
-    }
+    D.scoreA.textContent=(r.pred.a&&r.pred.a.score)||0;D.scoreB.textContent=(r.pred.b&&r.pred.b.score)||0;D.scoreC.textContent=(r.pred.c&&r.pred.c.score)||0;
+    D.killA.textContent='递推杀 '+r.pred.a.target;D.killB.textContent='递推杀 '+r.pred.b.target;D.killC.textContent='递推杀 '+r.pred.c.target;
     D.genTitle.textContent=selectedPositionBadge(r.t.mode,r.target)+' ｜ '+r.target+' 注高频覆盖大底';D.genSub.textContent=r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be);
     if(r.nums.length>5000){
       D.numbersBox.textContent=r.nums.slice(0,1200).join(' ')+'\n\n……已生成 '+r.nums.length+' 注。为避免页面卡顿，仅预览前1200注。点击“复制号码”会复制完整号码。';
     }else{
       D.numbersBox.textContent=r.nums.join(' ');
     }
-    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79、3星随机699/799、4星随机7999、5星随机79999；随机种子可选：自动择优 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会生成当前大底并刷新最近60期快速路数；不跑完整三模式回测。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
+    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79、3星随机699/799、4星随机7999、5星随机79999；随机种子手动选择：上一期 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会生成当前大底并刷新最近60期快速路数；不跑完整三模式回测。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
   },
   visual:function(r,quality){
     D.visualPanel.classList.remove('hidden');
@@ -1043,33 +970,55 @@ var Render={
       return'<div class="rounded-2xl border '+act+' p-3"><div class="flex justify-between items-center"><b class="text-sm">'+x.label+tag+'</b><span class="chip mono">影子分 '+score.toFixed(1)+'</span></div><div class="mt-2 text-xs text-slate-500">近10 '+pct(st.r10)+' ｜ EV20 '+ev.toFixed(1)+' ｜ '+cur+st.currentStreak+'</div><div class="mt-2 whitespace-nowrap overflow-hidden">'+dots+'</div></div>';
     }).join('');
   },
-  twoStarRoads:function(raw,opt,tier){
+  twoStarRoads:function(raw,opt){
     if(!D.twoStarRoadPanel||!D.twoStarRoadGrid)return;
-    if(!raw||!(raw[0]&&raw[0].length>=5)||opt.tripleMode!=='auto2'){
+    if(!raw||!(raw[0]&&raw[0].length>=5)){
       D.twoStarRoadPanel.classList.add('hidden');
       return;
     }
-    var modes=Data.modes(raw,'auto2'),cards=[];
-    modes.forEach(function(m){
-      var t=Data.triple(raw,m),rows=t.rows,realTier=tier;
-      if(opt.tierMode==='auto')realTier=79;
-      var obj=fastRoadForScan(raw,opt,m,realTier),log=(obj.displayLog||[]).slice(-60);
-      var hits=log.filter(function(x){return x.status==='hit';}).length,total=log.length,rate=div(hits,total);
-      var st=stateScoreFromLog(log),cur=st.current?((st.current.type==='hit'?'连中':'连挂')+st.current.n):'-';
-      cards.push({mode:m,label:t.label,rate:rate,hits:hits,total:total,state:st,cur:cur,score:(obj.autoScore!=null?obj.autoScore:roadAutoScore(log)),html:drawRoad(log,false)});
-    });
-    cards.sort(function(a,b){return (b.score-a.score)||(b.state.score-a.state.score)||(b.rate-a.rate);});
-    D.twoStarRoadSummary.textContent='按自动择优分排序 ｜ '+cards.length+' 个二星位置';
-    D.twoStarRoadGrid.innerHTML=cards.map(function(c){
-      var cls=c.state.score>=15?'text-sky-600':(c.state.score<0?'text-rose-600':'text-amber-600');
-      return '<div class="rounded-2xl border border-slate-200 bg-white p-3">'
-        +'<div class="flex justify-between items-center gap-2"><b>'+c.label+'</b><span class="chip mono '+cls+'">择优 '+c.score.toFixed(1)+'</span></div>'
-        +'<div class="text-xs text-slate-500 mt-1">近60 '+c.hits+'/'+c.total+' ｜ '+pct(c.rate)+' ｜ '+c.cur+' ｜ 状态 '+c.state.score.toFixed(1)+'</div>'
-        +'<div class="mt-2 overflow-x-auto">'+c.html+'</div>'
-        +'<div class="text-[11px] text-slate-500 mt-2 leading-relaxed">'+c.state.label+'</div>'
-        +'</div>';
-    }).join('');
     D.twoStarRoadPanel.classList.remove('hidden');
+    D.twoStarRoadSummary.textContent='正在计算二星十位置路数...';
+    D.twoStarRoadGrid.innerHTML='<div class="text-xs text-slate-400 border border-dashed border-slate-200 rounded-xl p-3">计算中，稍候...</div>';
+
+    setTimeout(function(){
+      try{
+        var modes=['p01','p02','p03','p04','p12','p13','p14','p23','p24','p34'],cards=[];
+        modes.forEach(function(m){
+          var t=Data.triple(raw,m),rows=t.rows,out=[],balance=C.bank,tier=79;
+          if(opt.tierMode==='random69')tier=69;
+          if(opt.tierMode==='random79')tier=79;
+
+          // 不卡顿版：每个二星位置只解析一次当前种子，用于观察当前种子下的最近60期路数。
+          // 这与主面板“快速路数”的口径一致，避免每格再次递归自动择优。
+          var seedInfo=SeedAuto.resolve(raw,opt,m,tier);
+          var start=Math.max(1,rows.length-61);
+          for(var i=start;i<rows.length-1;i++){
+            var hist=rows.slice(0,i+1),pred=Engine.predict(hist);
+            var opt2=Object.assign({},opt,{currentMode:m,seedMode:(opt.seedMode||'s1'),resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo),factorState:Engine.factorState(out)});
+            var pack=Engine.numbers(hist,pred,opt2,tier);
+            var actual=Data.rowStr(rows[i+1]),hit=pack.nums.indexOf(actual)>=0,stake=pack.nums.length,payout=payoutByLen(2),pnl=hit?payout-stake:-stake;
+            balance+=pnl;
+            out.push({idx:i+2,basedOn:i+1,mode:m,label:t.label,fullActual:Data.rowStr(raw[i+1]),sliceActual:actual,actual:actual,verify:hit?'进入大底':'未进入大底',status:hit?'hit':'miss',pnl:pnl,balance:balance,reason:'二星位置路数',stake:stake,simHit:hit,attr:hit?'命中覆盖':'未进入覆盖'});
+          }
+          var hits=out.filter(function(x){return x.status==='hit';}).length,total=out.length,st=recentStats(out),ss=SeedAuto.scoreLog(out),cur=st.currentType==='hit'?'连中':st.currentType==='miss'?'连挂':'无';
+          cards.push({mode:m,label:t.label,log:out,hits:hits,total:total,rate:div(hits,total),score:ss,st:st,cur:cur+st.currentStreak,seed:seedInfo.mode});
+        });
+        cards.sort(function(a,b){return b.score-a.score||b.rate-a.rate;});
+        D.twoStarRoadSummary.textContent='按种子评分/命中率排序 ｜ '+cards.length+' 个位置';
+        D.twoStarRoadGrid.innerHTML=cards.map(function(c){
+          var cls=c.rate>=0.75?'text-sky-600':(c.rate<0.65?'text-rose-600':'text-amber-600');
+          return '<div class="rounded-2xl border border-slate-200 bg-white p-3">'
+            +'<div class="flex justify-between items-center gap-2"><b>'+c.label+'</b><span class="chip mono '+cls+'">'+pct(c.rate)+'</span></div>'
+            +'<div class="text-xs text-slate-500 mt-1">近60 '+c.hits+'/'+c.total+' ｜ '+c.cur+' ｜ 评分 '+(isFinite(c.score)?c.score.toFixed(1):'-')+' ｜ 种子 '+SeedAuto.label(c.seed)+'</div>'
+            +'<div class="mt-2 overflow-x-auto">'+drawRoad(c.log.slice(-60),false)+'</div>'
+            +'</div>';
+        }).join('');
+      }catch(e){
+        console.error(e);
+        D.twoStarRoadSummary.textContent='二星路数计算错误';
+        D.twoStarRoadGrid.innerHTML='<div class="text-xs text-rose-500 border border-rose-200 rounded-xl p-3">'+e.message+'</div>';
+      }
+    },20);
   },
 
   stats:function(r){
@@ -1091,7 +1040,7 @@ var Render={
     D.backtestReport.classList.remove('hidden');
     var useDynamic=!!r.displayLog;
     D.btMode.textContent=useDynamic?(r.displayMode+' ｜ 动态影子流水'):r.displayMode;D.btTotal.textContent=useDynamic?r.dynamicTotal:r.total;D.btHits.textContent=useDynamic?r.dynamicHits:r.hits;D.btRate.textContent=pct(useDynamic?r.dynamicRate:r.rate);D.btPnl.textContent=Math.round((useDynamic?r.dynamicBalance:r.balance)-C.bank);D.btAvg.textContent=useDynamic?r.dynamicAvg:r.avg;D.btDD.textContent=useDynamic?r.dynamicDD:r.maxDD;
-    D.candidateReport.innerHTML='<b>当前自动择优位置：</b>'+selectedPositionText(r.currentMode||r.mode)+'<br><b>模式说明：</b>位置评分卡已移除，但当前实际位置会在上方显示；自动择优已改为顺势修复平衡，并在二星自动择优时显示全部二星位置最近60期路数。<br><b>当前主指标：</b>'+(useDynamic?'主路与下方流水同源':'使用当前手动选择模式');
+    D.candidateReport.innerHTML='<b>当前自动择优位置：</b>'+selectedPositionText(r.currentMode||r.mode)+'<br><b>模式说明：</b>位置评分卡已移除，但当前实际位置会在上方显示。<br><b>当前主指标：</b>'+(useDynamic?'主路与下方流水同源':'使用当前手动选择模式');
     this.visual(r,quality);this.records(r);
   },
   records:function(r){
@@ -1109,7 +1058,7 @@ var LiveSnapshot={get:function(){return null;},render:function(){},verify:functi
 
 var SeedAuto={
   modes:['s5','s5_10','s5_10_20'],
-  label:function(m){return m==='s5'?'近5期':(m==='s5_10'?'近5+10':'近5+10+20');},
+  label:function(m){return m==='s1'?'上一期':(m==='s5'?'近5期':(m==='s5_10'?'近5+10':'近5+10+20'));},
   maxStreak:function(arr,status){
     var m=0,c=0;arr.forEach(function(x){if(x.status===status){c++;m=Math.max(m,c);}else c=0;});return m;
   },
@@ -1126,7 +1075,7 @@ var SeedAuto={
     r20.forEach(function(x){bal+=x.pnl||0;peak=Math.max(peak,bal);dd=Math.max(dd,peak-bal);});
     var streakControl=clamp(1-maxMiss20/5,0,1);
     var ddControl=clamp(1-dd/4200,0,1);
-    return hitRate(r10)*35 + hitRate(r20)*25 + hitRate(r60)*10 + streakControl*20 + ddControl*10 - switch10*3 + stateScoreFromLog(log).score;
+    return hitRate(r10)*35 + hitRate(r20)*25 + hitRate(r60)*10 + streakControl*20 + ddControl*10 - switch10*3;
   },
   simulate:function(raw,opt,mode,tier,seedMode){
     var t=Data.triple(raw,mode),rows=t.rows,out=[];
@@ -1135,25 +1084,19 @@ var SeedAuto={
     for(var i=start;i<rows.length-1;i++){
       var hist=rows.slice(0,i+1),pred=Engine.predict(hist);
       var opt2=Object.assign({},opt,{seedMode:seedMode,resolvedSeedMode:seedMode,currentMode:mode,factorState:Engine.factorState(out)});
-      var actual=Data.rowStr(rows[i+1]),stake=tier,payout=payoutByLen(rows[0]&&rows[0].length||3),hit;
-      if(Engine.shouldUseFastRandom(hist,opt2,tier)){
-        hit=Engine.fastRandomHit(hist,opt2,tier,actual);
-      }else{
-        var pack=Engine.numbers(hist,pred,opt2,tier);
-        stake=pack.nums.length;
-        hit=pack.nums.indexOf(actual)>=0;
-      }
+      var pack=Engine.numbers(hist,pred,opt2,tier);
+      var actual=Data.rowStr(rows[i+1]),hit=pack.nums.indexOf(actual)>=0,stake=pack.nums.length,payout=payoutByLen(rows[0]&&rows[0].length||3);
       out.push({status:hit?'hit':'miss',pnl:hit?payout-stake:-stake});
     }
     return {seedMode:seedMode,score:SeedAuto.scoreLog(out),log:out};
   },
   resolve:function(raw,opt,mode,tier){
-    if(!opt||opt.seedMode!=='auto')return {mode:(opt&&opt.seedMode)||'s5',candidates:[]};
+    if(!opt||opt.seedMode!=='auto')return {mode:(opt&&opt.seedMode)||'s1',candidates:[]};
     var best=null,cands=this.modes.map(function(sm){
       return SeedAuto.simulate(raw,opt,mode,tier,sm);
     });
     cands.forEach(function(x){if(!best||x.score>best.score)best=x;});
-    return {mode:(best?best.seedMode:'s5_10'),candidates:cands};
+    return {mode:(best?best.seedMode:'s1'),candidates:cands};
   },
   report:function(info){
     if(!info||!info.candidates||!info.candidates.length)return '';
@@ -1162,19 +1105,13 @@ var SeedAuto={
 };
 
 function fastPickMode(raw,opt){
-  // 仅作兜底。V22.4.1 开始，单期扫描自动模式会用 quickChooseModeForScan 真正择优。
+  // 单期结构扫描不再跑完整历史回测，避免4星/5星随机档严重卡顿。
+  // 自动模式只做轻量默认选择：3星自动取前三，4星自动取前4。
+  // 真正历史择优请点击“三模式回测”。
   if(opt.tripleMode==='auto')return 'front3';
   if(opt.tripleMode==='auto2')return 'p34';
   if(opt.tripleMode==='auto4')return 'front4';
   return opt.tripleMode;
-}
-function hitRateFromLog(log){
-  var arr=(log||[]).filter(function(x){return x.status==='hit'||x.status==='miss';});
-  return div(arr.filter(function(x){return x.status==='hit';}).length,arr.length);
-}
-function roadAutoScore(log){
-  var st=recentStats(log||[]);
-  return nearScore(st,hitRateFromLog(log||[]))+stateScoreFromLog(log||[]).score;
 }
 function autoTierForScan(opt,rows){
   var tier=Engine.tier(opt,null);
@@ -1185,48 +1122,24 @@ function autoTierForScan(opt,rows){
   return tier;
 }
 
-function quickChooseModeForScan(raw,opt){
-  if(!(opt.tripleMode==='auto'||opt.tripleMode==='auto2'||opt.tripleMode==='auto4')){
-    var t0=Data.triple(raw,opt.tripleMode),tier0=autoTierForScan(opt,t0.rows);
-    return {mode:opt.tripleMode,tier:tier0,road:null,score:0,candidates:[]};
-  }
-  var modes=Data.modes(raw,opt.tripleMode),best=null,candidates=[];
-  modes.forEach(function(m){
-    var t=Data.triple(raw,m),tier=autoTierForScan(opt,t.rows),road=fastRoadForScan(raw,opt,m,tier),score=road.autoScore!=null?road.autoScore:roadAutoScore(road.displayLog||[]);
-    var item={mode:m,tier:tier,road:road,score:score,label:t.label};
-    candidates.push(item);
-    if(!best||item.score>best.score)best=item;
-  });
-  return best||{mode:fastPickMode(raw,opt),tier:79,road:null,score:0,candidates:candidates};
-}
-
 function fastRoadForScan(raw,opt,mode,tier){
   /*
-    精确路数：
+    快速路数：
     不跑完整三模式择优回测，不做模式卡片、不画权益曲线。
     只用当前扫描模式 + 当前档位，滚动核验最近最多60期，生成主路/副路。
     这样能看路数，同时避免4星/5星完整回测卡死。
   */
-  var t=Data.triple(raw,mode),rows=t.rows,out=[],balance=C.bank,currentSeedInfo=SeedAuto.resolve(raw,opt,mode,tier),resolvedSeed=currentSeedInfo.mode;
-  if(rows.length<4)return {displayLog:out,tradeLog:out,displayMode:t.label+' ｜ 快速路数',mode:mode,label:t.label,recent:recentStats(out),ev20:0,be:tier/payoutByLen(rows[0]&&rows[0].length||3),adaptiveText:'精确路数：样本不足',factorState:Engine.factorState(out),resolvedSeedMode:resolvedSeed,seedReport:SeedAuto.report(currentSeedInfo),autoScore:0};
+  var t=Data.triple(raw,mode),rows=t.rows,out=[],balance=C.bank,seedInfo=SeedAuto.resolve(raw,opt,mode,tier),resolvedSeed=seedInfo.mode;
+  if(rows.length<4)return {displayLog:out,tradeLog:out,displayMode:t.label+' ｜ 快速路数',mode:mode,label:t.label,recent:recentStats(out),ev20:0,be:tier/payoutByLen(rows[0]&&rows[0].length||3),adaptiveText:'快速路数：样本不足',factorState:Engine.factorState(out),resolvedSeedMode:resolvedSeed,seedReport:SeedAuto.report(seedInfo)};
   var start=Math.max(1,rows.length-61);
   for(var i=start;i<rows.length-1;i++){
     var hist=rows.slice(0,i+1),pred=Engine.predict(hist),opt2=Object.assign({},opt,{factorState:Engine.factorState(out),currentMode:mode});
-    opt2.resolvedSeedMode=resolvedSeed;opt2.seedReport=SeedAuto.report(currentSeedInfo);
-    var actual=Data.rowStr(rows[i+1]),stake=tier,payout=payoutByLen(rows[0]&&rows[0].length||3),simHit;
-    if(Engine.shouldUseFastRandom(hist,opt2,tier)){
-      simHit=Engine.fastRandomHit(hist,opt2,tier,actual);
-    }else{
-      var pack=Engine.numbers(hist,pred,opt2,tier);
-      stake=pack.nums.length;
-      simHit=pack.nums.indexOf(actual)>=0;
-    }
-    var pnl=simHit?payout-stake:-stake;
+    opt2.resolvedSeedMode=resolvedSeed;opt2.seedReport=SeedAuto.report(seedInfo);var pack=Engine.numbers(hist,pred,opt2,tier),actual=Data.rowStr(rows[i+1]),simHit=pack.nums.indexOf(actual)>=0,stake=pack.nums.length,payout=payoutByLen(rows[0]&&rows[0].length||3),pnl=simHit?payout-stake:-stake;
     balance+=pnl;
     out.push({idx:i+2,basedOn:i+1,mode:mode,label:t.label,fullActual:Data.rowStr(raw[i+1]),sliceActual:actual,actual:actual,verify:simHit?'进入大底':'未进入大底',status:simHit?'hit':'miss',pnl:pnl,balance:balance,reason:'快速路数',stake:stake,simHit:simHit,attr:simHit?'命中覆盖':'快速路数未覆盖'});
   }
   var st=recentStats(out),hits=out.filter(function(x){return x.status==='hit';}).length,total=out.length;
-  return {displayLog:out,tradeLog:out,displayMode:t.label+' ｜ 快速60路数',mode:mode,label:t.label,recent:st,ev20:st.ev20,be:tier/payoutByLen(rows[0]&&rows[0].length||3),adaptiveText:'精确路数：当前模式最近'+total+'期，命中'+hits+'期，命中率'+pct(div(hits,total))+'；当前种子='+(resolvedSeed?SeedAuto.label(resolvedSeed):'-')+'；'+stateScoreText(out),factorState:Engine.factorState(out),resolvedSeedMode:resolvedSeed,seedReport:SeedAuto.report(currentSeedInfo),autoScore:roadAutoScore(out)};
+  return {displayLog:out,tradeLog:out,displayMode:t.label+' ｜ 快速60路数',mode:mode,label:t.label,recent:st,ev20:st.ev20,be:tier/payoutByLen(rows[0]&&rows[0].length||3),adaptiveText:'快速路数：当前模式最近'+total+'期，命中'+hits+'期，命中率'+pct(div(hits,total))+'；自动种子='+(resolvedSeed?SeedAuto.label(resolvedSeed):'-'),factorState:Engine.factorState(out),resolvedSeedMode:resolvedSeed,seedReport:SeedAuto.report(seedInfo)};
 }
 
 var App={
@@ -1234,25 +1147,24 @@ var App={
   scan:function(){try{
     var raw=this.parse();if(!raw)return;
     var opt=opts(),quality=Data.quality(raw,opt);
-    var chosen=quickChooseModeForScan(raw,opt),mode=chosen.mode,tier=chosen.tier;
-    var t=Data.triple(raw,mode),rows=t.rows,pred=Engine.predict(rows);
+    var mode=fastPickMode(raw,opt);
+    var t=Data.triple(raw,mode),rows=t.rows,pred=Engine.predict(rows),tier=autoTierForScan(opt,rows);
     var seedInfo=SeedAuto.resolve(raw,opt,mode,tier);
-    var opt2=Object.assign({},opt,{factorState:Engine.factorState([]),currentMode:mode,resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo),autoModeScore:chosen.score});
+    var opt2=Object.assign({},opt,{factorState:Engine.factorState([]),currentMode:mode,resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo)});
     var pack=Engine.numbers(rows,pred,opt2,tier),payout=payoutByLen(rows[0]&&rows[0].length||3);
     var r={t:t,rows:rows,pred:(pack.pred||pred),nums:pack.nums,prof:pack.prof,target:tier,be:tier/payout,factorState:opt2.factorState,opt:opt2,danSuggest:DanSuggest.text(raw)};
     Render.scan(r);
-    var roadObj=chosen.road||fastRoadForScan(raw,opt,mode,tier);
-    roadObj.currentMode=mode;
+    var roadObj=fastRoadForScan(raw,opt,mode,tier);
     Render.visual(roadObj,quality);
-    Render.twoStarRoads(raw,opt,tier);
-    tick('<span class="text-emerald-400">&gt; 扫描完成</span> | '+t.label+' | '+tier+' 注 | 已刷新精确60期路数');
+    Render.twoStarRoads(raw,opt);
+    tick('<span class="text-emerald-400">&gt; 扫描完成</span> | '+t.label+' | '+tier+' 注 | 已刷新最近60期路数');
   }catch(e){console.error(e);alert('扫描发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 扫描错误：'+e.message+'</span>');}},
-  backtest:function(){try{var raw=this.parse();if(!raw)return;var opt=opts(),quality=Data.quality(raw,opt),r=Backtest.run(raw,opt);Render.backtest(r,quality);var tier=79;if(opt.tierMode==='random69')tier=69;if(opt.tierMode==='random79')tier=79;Render.twoStarRoads(raw,opt,tier);tick('<span class="text-cyan-400">&gt; 回测完成</span> | '+r.displayMode+' | 流水 '+(r.autoTimeline?r.autoTimeline.length:0)+' 期');}catch(e){console.error(e);alert('回测发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 回测错误：'+e.message+'</span>');}},
+  backtest:function(){try{var raw=this.parse();if(!raw)return;var opt=opts(),quality=Data.quality(raw,opt),r=Backtest.run(raw,opt);Render.backtest(r,quality);Render.twoStarRoads(raw,opt);tick('<span class="text-cyan-400">&gt; 回测完成</span> | '+r.displayMode+' | 流水 '+(r.autoTimeline?r.autoTimeline.length:0)+' 期');}catch(e){console.error(e);alert('回测发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 回测错误：'+e.message+'</span>');}},
   copy:function(){if(!State.lastNumbers.length){alert('请先生成号码');return;}navigator.clipboard.writeText(State.lastNumbers.join(' '));tick('<span class="text-emerald-400">&gt; 已复制当前大底号码</span>');},
   exportCSV:function(){var arr=State.tradeRows||[];if(!arr.length){alert('请先运行回测');return;}var nl=String.fromCharCode(10),header=['期号','模式','切换','注数','完整开奖号','下注切片','结果','大底核验','盈亏','余额','原因','归因'].join(',')+nl,body=arr.map(function(x){return[x.idx,x.label,x.switched?'切换':'-',x.stake,(x.fullActual||x.actual),(x.sliceActual||x.actual),x.status,(x.verify||''),x.pnl,Math.round(x.balance),x.reason,x.attr].map(function(v){return '"'+String(v).replaceAll('"','""')+'"';}).join(',');}).join(nl),blob=new Blob([String.fromCharCode(65279)+header+body],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sop_v19_6_verified_ledger.csv';a.click();URL.revokeObjectURL(a.href);}
 };
 
-function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.4.3 路数核验修正版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
+function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.2.4 Stable 手动种子上一期版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 
 })();
