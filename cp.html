@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP V22.2.4 Stable | 手动种子上一期版</title>
+<title>SOP V22.2.5 Stable | 轻量自动择优版</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -27,7 +27,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 <header class="mb-5 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
 <div>
 <div class="text-xs tracking-[.25em] text-indigo-500 font-bold uppercase">SOP LEGEND TERMINAL</div>
-<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.2.4 Stable 手动种子上一期版 · 时时彩五位自动择优</h1>
+<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.2.5 Stable 轻量自动择优版 · 时时彩五位自动择优</h1>
 <p class="text-sm text-slate-500 mt-1">去复式框架版：取消已取消复式框架递推安全双码，不再产生 复式框架已取消 盲区；保留 A+B=C / A-B=C 递推形态、两码合差积、012路、跨度、形态与回补池。</p>
 </div>
 <div id="ticker" class="mono text-xs bg-slate-900 text-slate-200 rounded-xl px-4 py-3 shadow">&gt; 正在初始化...</div>
@@ -929,7 +929,7 @@ var Render={
     if(D.currentPosition){
       D.currentPosition.textContent=selectedPositionText(r.t.mode);
       D.currentPositionBadge.textContent=selectedPositionBadge(r.t.mode,r.target);
-      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+SeedAuto.label((r.opt&&r.opt.resolvedSeedMode)||(r.opt&&r.opt.seedMode)||'s1');
+      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+SeedAuto.label((r.opt&&r.opt.resolvedSeedMode)||(r.opt&&r.opt.seedMode)||'s1')+' ｜ 择优分 '+((r.opt&&r.opt.autoModeScore!=null&&isFinite(r.opt.autoModeScore))?r.opt.autoModeScore.toFixed(1):'-');
     }
     D.scoreA.textContent=(r.pred.a&&r.pred.a.score)||0;D.scoreB.textContent=(r.pred.b&&r.pred.b.score)||0;D.scoreC.textContent=(r.pred.c&&r.pred.c.score)||0;
     D.killA.textContent='递推杀 '+r.pred.a.target;D.killB.textContent='递推杀 '+r.pred.b.target;D.killC.textContent='递推杀 '+r.pred.c.target;
@@ -939,7 +939,7 @@ var Render={
     }else{
       D.numbersBox.textContent=r.nums.join(' ');
     }
-    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79、3星随机699/799、4星随机7999、5星随机79999；随机种子手动选择：上一期 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会生成当前大底并刷新最近60期快速路数；不跑完整三模式回测。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
+    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79、3星随机699/799、4星随机7999、5星随机79999；随机种子手动选择：上一期 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会轻量比较候选位置最近60期快速路数，选择当前分数最高的位置，并生成当前大底。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
   },
   visual:function(r,quality){
     D.visualPanel.classList.remove('hidden');
@@ -1105,13 +1105,43 @@ var SeedAuto={
 };
 
 function fastPickMode(raw,opt){
-  // 单期结构扫描不再跑完整历史回测，避免4星/5星随机档严重卡顿。
-  // 自动模式只做轻量默认选择：3星自动取前三，4星自动取前4。
-  // 真正历史择优请点击“三模式回测”。
+  // 仅作兜底。V22.2.5 开始，单期扫描自动模式会走 lightPickModeForScan。
   if(opt.tripleMode==='auto')return 'front3';
   if(opt.tripleMode==='auto2')return 'p34';
   if(opt.tripleMode==='auto4')return 'front4';
   return opt.tripleMode;
+}
+function hitRateFromLog(log){
+  var arr=(log||[]).filter(function(x){return x.status==='hit'||x.status==='miss';});
+  return div(arr.filter(function(x){return x.status==='hit';}).length,arr.length);
+}
+function lightScoreRoad(log){
+  var st=recentStats(log||[]);
+  return nearScore(st,hitRateFromLog(log||[])) + SeedAuto.scoreLog(log||[])*0.15;
+}
+function lightPickModeForScan(raw,opt){
+  /*
+    V22.2.5 轻量自动择优：
+    单期扫描不再固定：
+      auto  -> front3
+      auto2 -> p34
+      auto4 -> front4
+    而是比较候选位置最近60期快速路数，取 lightScore 最高者。
+    不做复杂逐期动态择优，避免回到 V22.4 的卡顿问题。
+  */
+  if(!(opt.tripleMode==='auto'||opt.tripleMode==='auto2'||opt.tripleMode==='auto4')){
+    return {mode:opt.tripleMode,score:0,road:null,candidates:[]};
+  }
+  var modes=Data.modes(raw,opt.tripleMode),best=null,candidates=[];
+  modes.forEach(function(m){
+    var t=Data.triple(raw,m),rows=t.rows,tier=autoTierForScan(opt,rows);
+    var road=fastRoadForScan(raw,opt,m,tier);
+    var score=lightScoreRoad(road.displayLog||road.tradeLog||[]);
+    var item={mode:m,label:t.label,tier:tier,score:score,road:road};
+    candidates.push(item);
+    if(!best || item.score>best.score)best=item;
+  });
+  return best || {mode:fastPickMode(raw,opt),score:0,road:null,candidates:candidates};
 }
 function autoTierForScan(opt,rows){
   var tier=Engine.tier(opt,null);
@@ -1147,14 +1177,16 @@ var App={
   scan:function(){try{
     var raw=this.parse();if(!raw)return;
     var opt=opts(),quality=Data.quality(raw,opt);
-    var mode=fastPickMode(raw,opt);
-    var t=Data.triple(raw,mode),rows=t.rows,pred=Engine.predict(rows),tier=autoTierForScan(opt,rows);
+    var pick=lightPickModeForScan(raw,opt),mode=pick.mode;
+    var t=Data.triple(raw,mode),rows=t.rows,pred=Engine.predict(rows),tier=pick.tier||autoTierForScan(opt,rows);
     var seedInfo=SeedAuto.resolve(raw,opt,mode,tier);
-    var opt2=Object.assign({},opt,{factorState:Engine.factorState([]),currentMode:mode,resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo)});
+    var opt2=Object.assign({},opt,{factorState:Engine.factorState((pick.road&&pick.road.displayLog)||[]),currentMode:mode,resolvedSeedMode:seedInfo.mode,seedReport:SeedAuto.report(seedInfo),autoModeScore:pick.score});
     var pack=Engine.numbers(rows,pred,opt2,tier),payout=payoutByLen(rows[0]&&rows[0].length||3);
     var r={t:t,rows:rows,pred:(pack.pred||pred),nums:pack.nums,prof:pack.prof,target:tier,be:tier/payout,factorState:opt2.factorState,opt:opt2,danSuggest:DanSuggest.text(raw)};
     Render.scan(r);
-    var roadObj=fastRoadForScan(raw,opt,mode,tier);
+    var roadObj=pick.road||fastRoadForScan(raw,opt,mode,tier);
+    roadObj.currentMode=mode;
+    roadObj.displayMode=roadObj.displayMode+' ｜ 轻量择优分 '+(isFinite(pick.score)?pick.score.toFixed(1):'-');
     Render.visual(roadObj,quality);
     Render.twoStarRoads(raw,opt);
     tick('<span class="text-emerald-400">&gt; 扫描完成</span> | '+t.label+' | '+tier+' 注 | 已刷新最近60期路数');
@@ -1164,7 +1196,7 @@ var App={
   exportCSV:function(){var arr=State.tradeRows||[];if(!arr.length){alert('请先运行回测');return;}var nl=String.fromCharCode(10),header=['期号','模式','切换','注数','完整开奖号','下注切片','结果','大底核验','盈亏','余额','原因','归因'].join(',')+nl,body=arr.map(function(x){return[x.idx,x.label,x.switched?'切换':'-',x.stake,(x.fullActual||x.actual),(x.sliceActual||x.actual),x.status,(x.verify||''),x.pnl,Math.round(x.balance),x.reason,x.attr].map(function(v){return '"'+String(v).replaceAll('"','""')+'"';}).join(',');}).join(nl),blob=new Blob([String.fromCharCode(65279)+header+body],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sop_v19_6_verified_ledger.csv';a.click();URL.revokeObjectURL(a.href);}
 };
 
-function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.2.4 Stable 手动种子上一期版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
+function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.2.5 Stable 轻量自动择优版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 
 })();
