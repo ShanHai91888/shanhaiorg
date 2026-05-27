@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP V22.2.5 Stable | 轻量自动择优版</title>
+<title>SOP V22.2.8 Stable | 600三期计划显示版</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -27,7 +27,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 <header class="mb-5 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
 <div>
 <div class="text-xs tracking-[.25em] text-indigo-500 font-bold uppercase">SOP LEGEND TERMINAL</div>
-<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.2.5 Stable 轻量自动择优版 · 时时彩五位自动择优</h1>
+<h1 class="text-2xl md:text-3xl font-black text-slate-900">V22.2.8 Stable 600三期计划显示版 · 时时彩五位自动择优</h1>
 <p class="text-sm text-slate-500 mt-1">去复式框架版：取消已取消复式框架递推安全双码，不再产生 复式框架已取消 盲区；保留 A+B=C / A-B=C 递推形态、两码合差积、012路、跨度、形态与回补池。</p>
 </div>
 <div id="ticker" class="mono text-xs bg-slate-900 text-slate-200 rounded-xl px-4 py-3 shadow">&gt; 正在初始化...</div>
@@ -44,7 +44,7 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 10286"></textarea>
 <div class="grid grid-cols-2 gap-3 mt-3">
 <div><label class="text-[11px] font-bold text-slate-500">时时彩模式</label><select id="tripleMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动择优 · 3星前三/中三/后三</option><option value="auto2">自动择优 · 2星十个位置</option><option value="auto4">自动择优 · 4星前4/后4</option><option value="front3">3星前三 · 万千百</option><option value="middle3">3星中三 · 千百十</option><option value="back3">3星后三 · 百十个</option><option value="p01">2星万千</option><option value="p02">2星万百</option><option value="p03">2星万十</option><option value="p04">2星万个</option><option value="p12">2星千百</option><option value="p13">2星千十</option><option value="p14">2星千个</option><option value="p23">2星百十</option><option value="p24">2星百个</option><option value="p34">2星十个</option><option value="front4">4星前4 · 万千百十</option><option value="back4">4星后4 · 千百十个</option><option value="five5">5星 · 万千百十个</option></select></div>
-<div><label class="text-[11px] font-bold text-slate-500">注数档位</label><select id="tierMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动风控 · 79/699/799</option><option value="random69">2星纯随机 · 69</option><option value="random79">2星纯随机 · 79</option><option value="random799">3星纯随机 · 799</option><option value="random699">3星纯随机 · 699</option><option value="random7999">4星纯随机 · 7999</option><option value="random79999">5星纯随机 · 79999</option><option value="799">3星极稳覆盖 · 799</option><option value="699">3星标准覆盖 · 699</option></select></div>
+<div><label class="text-[11px] font-bold text-slate-500">注数档位</label><select id="tierMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="auto" selected>自动风控 · 79/699/799</option><option value="random69">2星纯随机 · 69</option><option value="random79">2星纯随机 · 79</option><option value="random89">2星纯随机 · 89</option><option value="random600">3星纯随机 · 600</option><option value="plan600x3">3星600三期计划</option><option value="random699">3星纯随机 · 699</option><option value="random799">3星纯随机 · 799</option><option value="random899">3星纯随机 · 899</option><option value="random7999">4星纯随机 · 7999</option><option value="random79999">5星纯随机 · 79999</option><option value="799">3星极稳覆盖 · 799</option><option value="699">3星标准覆盖 · 699</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">随机种子</label><select id="seedMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="s1" selected>上一期</option><option value="s5">近5期</option><option value="s5_10">近5 + 近10</option><option value="s5_10_20">近5 + 近10 + 近20</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">数据顺序</label><select id="orderMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="oldNew" selected>旧 → 新</option><option value="newOld">新 → 旧，自动反转</option></select></div>
 <div><label class="text-[11px] font-bold text-slate-500">覆盖模式</label><select id="compressionMode" class="w-full mt-1 border border-slate-200 rounded-lg py-2 px-2 text-xs bg-white"><option value="highWin" selected>高频覆盖</option><option value="off">关闭压缩 · 原始大底</option></select></div>
@@ -83,6 +83,21 @@ body{background:#edf2f7;color:#0f172a;font-family:Inter,system-ui,-apple-system,
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 A 分</div><div id="scoreA" class="text-3xl font-black mono text-indigo-600">--</div><div id="killA" class="text-xs text-slate-500"></div></div>
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 B 分</div><div id="scoreB" class="text-3xl font-black mono text-indigo-600">--</div><div id="killB" class="text-xs text-slate-500"></div></div>
 <div class="glass rounded-2xl shadow-sm border border-white p-4"><div class="text-xs text-slate-400 font-bold">位置 C 分</div><div id="scoreC" class="text-3xl font-black mono text-indigo-600">--</div><div id="killC" class="text-xs text-slate-500"></div></div>
+</section>
+
+
+<section id="plan600Panel" class="hidden glass rounded-2xl shadow-sm border border-white p-4">
+  <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+    <div>
+      <h2 class="font-black text-slate-800">3星600三期计划</h2>
+      <div id="plan600Summary" class="text-xs text-slate-500 mt-1">选择“3星600三期计划”后显示。</div>
+    </div>
+    <span id="plan600Badge" class="chip mono">600×3</span>
+  </div>
+  <div id="plan600Road"></div>
+  <div class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+    上方普通主路仍按“单期中/挂”显示；本栏按三期计划统计：3期内中1次即为计划成功，连续3挂才算计划失败。
+  </div>
 </section>
 
 <section id="visualPanel" class="hidden glass rounded-2xl shadow-sm border border-white p-4">
@@ -181,7 +196,7 @@ function pct(v){return (v*100).toFixed(1)+'%';}
 function tick(h){if(D.ticker)D.ticker.innerHTML=h;}
 
 function initDom(){
-  'dataInput,tripleMode,tierMode,seedMode,orderMode,compressionMode,enableAutoDan,enableCircuit,enableKillTriplet,scanBtn,backtestBtn,copyBtn,exportCsvBtn,ticker,inputHint,modeBadge,modelExplain,currentPosition,currentPositionSub,currentPositionBadge,scoreA,scoreB,scoreC,killA,killB,killC,visualPanel,visualMode,roadBoard,trendRoad,bigEyeRoad,smallRoad,cockroachRoad,factorRoad,sideRoadAdvice,twoStarRoadPanel,twoStarRoadGrid,twoStarRoadSummary,nearStats,equityChart,riskPanel,genTitle,genSub,numbersBox,backtestReport,btMode,btTotal,btHits,btRate,btPnl,btAvg,btDD,candidateReport,tradeRecordPanel,tradeRecordBody,recordSummary'.split(',').forEach(function(id){D[id]=g(id);});
+  'dataInput,tripleMode,tierMode,seedMode,orderMode,compressionMode,enableAutoDan,enableCircuit,enableKillTriplet,scanBtn,backtestBtn,copyBtn,exportCsvBtn,ticker,inputHint,modeBadge,modelExplain,currentPosition,currentPositionSub,currentPositionBadge,scoreA,scoreB,scoreC,killA,killB,killC,plan600Panel,plan600Summary,plan600Badge,plan600Road,visualPanel,visualMode,roadBoard,trendRoad,bigEyeRoad,smallRoad,cockroachRoad,factorRoad,sideRoadAdvice,twoStarRoadPanel,twoStarRoadGrid,twoStarRoadSummary,nearStats,equityChart,riskPanel,genTitle,genSub,numbersBox,backtestReport,btMode,btTotal,btHits,btRate,btPnl,btAvg,btDD,candidateReport,tradeRecordPanel,tradeRecordBody,recordSummary'.split(',').forEach(function(id){D[id]=g(id);});
 }
 function opts(){return{tripleMode:D.tripleMode.value,tierMode:D.tierMode.value,seedMode:D.seedMode.value,orderMode:D.orderMode.value,compressionMode:D.compressionMode.value,autoDan:D.enableAutoDan.checked,circuit:D.enableCircuit.checked,killTriplet:D.enableKillTriplet.checked};}
 
@@ -330,7 +345,10 @@ var Engine={
     */
     if(opt.tierMode==='random69')return 69;
     if(opt.tierMode==='random79')return 79;
+    if(opt.tierMode==='random89')return 89;
+    if(opt.tierMode==='random600'||opt.tierMode==='plan600x3')return 600;
     if(opt.tierMode==='random799')return 799;
+    if(opt.tierMode==='random899')return 899;
     if(opt.tierMode==='random699')return 699;
     if(opt.tierMode==='random7999')return 7999;
     if(opt.tierMode==='random79999')return 79999;
@@ -635,7 +653,10 @@ var Engine={
     if(rows&&rows[0]&&rows[0].length===2)return Engine.pureRandom(rows,target||79,opt);
     if(opt&&opt.tierMode==='random69')return Engine.pureRandom(rows,69,opt);
     if(opt&&opt.tierMode==='random79')return Engine.pureRandom(rows,79,opt);
+    if(opt&&opt.tierMode==='random89')return Engine.pureRandom(rows,89,opt);
+    if((opt&&opt.tierMode==='random600')||(opt&&opt.tierMode==='plan600x3'))return Engine.pureRandom(rows,600,opt);
     if(opt&&opt.tierMode==='random799')return Engine.pureRandom(rows,799,opt);
+    if(opt&&opt.tierMode==='random899')return Engine.pureRandom(rows,899,opt);
     if(opt&&opt.tierMode==='random699')return Engine.pureRandom(rows,699,opt);
     if(opt&&opt.tierMode==='random7999')return Engine.pureRandom(rows,7999,opt);
     if(opt&&opt.tierMode==='random79999')return Engine.pureRandom(rows,79999,opt);
@@ -922,14 +943,56 @@ function selectedPositionBadge(mode,target){
   return 'POSITION';
 }
 
+function plan600BuildCycles(log){
+  var cycles=[],cur=[];
+  (log||[]).filter(function(x){return x.status==='hit'||x.status==='miss';}).forEach(function(x){
+    cur.push(x);
+    if(x.status==='hit'){
+      cycles.push({status:'hit',items:cur.slice(),label:'第'+cur.length+'期中'});
+      cur=[];
+    }else if(cur.length>=3){
+      cycles.push({status:'miss',items:cur.slice(),label:'3期全挂'});
+      cur=[];
+    }
+  });
+  if(cur.length)cycles.push({status:'pending',items:cur.slice(),label:'进行中 '+cur.length+'/3'});
+  return cycles;
+}
+function drawPlan600Road(cycles){
+  var html='<div class="flex flex-wrap gap-2">';
+  cycles.slice(-30).forEach(function(c,i){
+    var cls=c.status==='hit'?'bg-sky-500':(c.status==='miss'?'bg-rose-500':'bg-slate-300');
+    var title=c.items.map(function(x){return (x.idx||'')+':'+(x.status==='hit'?'中':'挂')+' '+(x.actual||'');}).join(' / ');
+    html+='<div title="'+title+'" class="rounded-xl border border-slate-200 bg-white p-2 min-w-[74px]">'
+      +'<div class="flex gap-1 mb-1">'+c.items.map(function(x){return '<span class="road-dot '+(x.status==='hit'?'dot-hit':'dot-miss')+'"></span>';}).join('')+'</div>'
+      +'<div class="text-[10px] font-bold '+(c.status==='hit'?'text-sky-600':(c.status==='miss'?'text-rose-600':'text-slate-500'))+'">'+c.label+'</div>'
+      +'</div>';
+  });
+  return html+'</div>';
+}
+
 var Render={
+  plan600:function(opt,mode,road){
+    if(!D.plan600Panel||!D.plan600Summary||!D.plan600Road)return;
+    if(!opt||opt.tierMode!=='plan600x3'){
+      D.plan600Panel.classList.add('hidden');
+      return;
+    }
+    var log=(road&&road.displayLog)||[],cycles=plan600BuildCycles(log),done=cycles.filter(function(c){return c.status==='hit'||c.status==='miss';}),succ=done.filter(function(c){return c.status==='hit';}).length,fail=done.filter(function(c){return c.status==='miss';}).length;
+    var state=plan600CycleInfo(opt,mode);
+    D.plan600Summary.textContent='当前计划第 '+state.step+'/3 期 ｜ 历史计划成功 '+succ+'/'+done.length+' ｜ 失败 '+fail+' ｜ 当前位置 '+selectedPositionText(mode);
+    D.plan600Badge.textContent='STEP '+state.step+'/3';
+    D.plan600Road.innerHTML=drawPlan600Road(cycles);
+    D.plan600Panel.classList.remove('hidden');
+  },
+
   scan:function(r){
     State.lastNumbers=r.nums;
     D.modeBadge.textContent=selectedPositionBadge(r.t.mode,r.target)+' · '+r.t.label;
     if(D.currentPosition){
       D.currentPosition.textContent=selectedPositionText(r.t.mode);
       D.currentPositionBadge.textContent=selectedPositionBadge(r.t.mode,r.target);
-      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+SeedAuto.label((r.opt&&r.opt.resolvedSeedMode)||(r.opt&&r.opt.seedMode)||'s1')+' ｜ 择优分 '+((r.opt&&r.opt.autoModeScore!=null&&isFinite(r.opt.autoModeScore))?r.opt.autoModeScore.toFixed(1):'-');
+      D.currentPositionSub.textContent='当前实际生成：'+r.t.label+' ｜ '+r.nums.length+' 注 ｜ BE '+pct(r.be)+' ｜ 种子 '+SeedAuto.label((r.opt&&r.opt.resolvedSeedMode)||(r.opt&&r.opt.seedMode)||'s1')+' ｜ 择优分 '+((r.opt&&r.opt.autoModeScore!=null&&isFinite(r.opt.autoModeScore))?r.opt.autoModeScore.toFixed(1):'-')+((r.opt&&r.opt.tierMode==='plan600x3')?' ｜ 600三期计划':'');
     }
     D.scoreA.textContent=(r.pred.a&&r.pred.a.score)||0;D.scoreB.textContent=(r.pred.b&&r.pred.b.score)||0;D.scoreC.textContent=(r.pred.c&&r.pred.c.score)||0;
     D.killA.textContent='递推杀 '+r.pred.a.target;D.killB.textContent='递推杀 '+r.pred.b.target;D.killC.textContent='递推杀 '+r.pred.c.target;
@@ -939,7 +1002,7 @@ var Render={
     }else{
       D.numbersBox.textContent=r.nums.join(' ');
     }
-    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79、3星随机699/799、4星随机7999、5星随机79999；随机种子手动选择：上一期 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会轻量比较候选位置最近60期快速路数，选择当前分数最高的位置，并生成当前大底。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
+    D.modelExplain.innerHTML='<div><b>递推形态计划：</b>'+r.pred.plan.text+'</div><div><b>3星5胆建议：</b>'+(r.danSuggest||'无')+'</div><div><b>注数档位：</b>'+r.target+' 注；BE '+pct(r.be)+'；支持2星随机69/79/89、3星随机600/699/799/899、3星600三期计划、4星随机7999、5星随机79999；随机种子手动选择：上一期 / 近5 / 近5+10 / 近5+10+20 + 模式 + 档位 + π动态片段</div><div><b>熵值：</b>'+pct(r.pred.entropy)+'</div><div><b>说明：</b>5胆码只做人工参考，不参与评分、不参与排除、不定胆。</div><div><b>模式：</b>单期扫描会轻量比较候选位置最近60期快速路数，选择当前分数最高的位置，并生成当前大底。4星/5星大注数只预览前1200注，复制仍为完整号码。</div>';
   },
   visual:function(r,quality){
     D.visualPanel.classList.remove('hidden');
@@ -986,7 +1049,8 @@ var Render={
         modes.forEach(function(m){
           var t=Data.triple(raw,m),rows=t.rows,out=[],balance=C.bank,tier=79;
           if(opt.tierMode==='random69')tier=69;
-          if(opt.tierMode==='random79')tier=79;
+          if(opt.tierMode==='random79')tier=79;if(opt.tierMode==='random89')tier=89;
+          if(opt.tierMode==='random89')tier=89;
 
           // 不卡顿版：每个二星位置只解析一次当前种子，用于观察当前种子下的最近60期路数。
           // 这与主面板“快速路数”的口径一致，避免每格再次递归自动择优。
@@ -1104,6 +1168,17 @@ var SeedAuto={
   }
 };
 
+function plan600StateKey(opt,mode){return 'sop_plan600x3_'+(opt.seedMode||'s1')+'_'+mode;}
+function plan600CycleInfo(opt,mode){
+  try{var x=JSON.parse(localStorage.getItem(plan600StateKey(opt,mode))||'{"step":1,"history":[]}');if(!x.step||x.step<1||x.step>3)x.step=1;if(!Array.isArray(x.history))x.history=[];return x;}catch(e){return{step:1,history:[]};}
+}
+function plan600Save(opt,mode,x){try{localStorage.setItem(plan600StateKey(opt,mode),JSON.stringify(x));}catch(e){}}
+function plan600UpdateFromRoad(opt,mode,road){
+  if(opt.tierMode!=='plan600x3'||!road||!road.displayLog||!road.displayLog.length)return;
+  var last=road.displayLog[road.displayLog.length-1],s=plan600CycleInfo(opt,mode);
+  if(last.status==='hit')s.step=1;else if(last.status==='miss')s.step=Math.min(3,(s.step||1)+1);
+  s.history=(s.history||[]).slice(-20);s.history.push({status:last.status,idx:last.idx,mode:mode,at:new Date().toISOString()});plan600Save(opt,mode,s);
+}
 function fastPickMode(raw,opt){
   // 仅作兜底。V22.2.5 开始，单期扫描自动模式会走 lightPickModeForScan。
   if(opt.tripleMode==='auto')return 'front3';
@@ -1186,17 +1261,21 @@ var App={
     Render.scan(r);
     var roadObj=pick.road||fastRoadForScan(raw,opt,mode,tier);
     roadObj.currentMode=mode;
-    roadObj.displayMode=roadObj.displayMode+' ｜ 轻量择优分 '+(isFinite(pick.score)?pick.score.toFixed(1):'-');
+    plan600UpdateFromRoad(opt,mode,roadObj);
+    var p600=plan600CycleInfo(opt,mode);
+    roadObj.displayMode=roadObj.displayMode+' ｜ 轻量择优分 '+(isFinite(pick.score)?pick.score.toFixed(1):'-')+(opt.tierMode==='plan600x3'?' ｜ 600三期第'+p600.step+'/3期':'');
+    if(opt.tierMode==='plan600x3'&&D.currentPositionSub)D.currentPositionSub.textContent+=' ｜ 当前计划第'+p600.step+'/3期';
+    Render.plan600(opt,mode,roadObj);
     Render.visual(roadObj,quality);
     Render.twoStarRoads(raw,opt);
     tick('<span class="text-emerald-400">&gt; 扫描完成</span> | '+t.label+' | '+tier+' 注 | 已刷新最近60期路数');
   }catch(e){console.error(e);alert('扫描发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 扫描错误：'+e.message+'</span>');}},
-  backtest:function(){try{var raw=this.parse();if(!raw)return;var opt=opts(),quality=Data.quality(raw,opt),r=Backtest.run(raw,opt);Render.backtest(r,quality);Render.twoStarRoads(raw,opt);tick('<span class="text-cyan-400">&gt; 回测完成</span> | '+r.displayMode+' | 流水 '+(r.autoTimeline?r.autoTimeline.length:0)+' 期');}catch(e){console.error(e);alert('回测发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 回测错误：'+e.message+'</span>');}},
+  backtest:function(){try{var raw=this.parse();if(!raw)return;var opt=opts(),quality=Data.quality(raw,opt),r=Backtest.run(raw,opt);Render.backtest(r,quality);Render.plan600(opt,r.currentMode||r.mode,{displayLog:r.displayLog||r.tradeLog||[]});Render.twoStarRoads(raw,opt);tick('<span class="text-cyan-400">&gt; 回测完成</span> | '+r.displayMode+' | 流水 '+(r.autoTimeline?r.autoTimeline.length:0)+' 期');}catch(e){console.error(e);alert('回测发生错误：'+e.message);tick('<span class="text-rose-400">&gt; 回测错误：'+e.message+'</span>');}},
   copy:function(){if(!State.lastNumbers.length){alert('请先生成号码');return;}navigator.clipboard.writeText(State.lastNumbers.join(' '));tick('<span class="text-emerald-400">&gt; 已复制当前大底号码</span>');},
   exportCSV:function(){var arr=State.tradeRows||[];if(!arr.length){alert('请先运行回测');return;}var nl=String.fromCharCode(10),header=['期号','模式','切换','注数','完整开奖号','下注切片','结果','大底核验','盈亏','余额','原因','归因'].join(',')+nl,body=arr.map(function(x){return[x.idx,x.label,x.switched?'切换':'-',x.stake,(x.fullActual||x.actual),(x.sliceActual||x.actual),x.status,(x.verify||''),x.pnl,Math.round(x.balance),x.reason,x.attr].map(function(v){return '"'+String(v).replaceAll('"','""')+'"';}).join(',');}).join(nl),blob=new Blob([String.fromCharCode(65279)+header+body],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sop_v19_6_verified_ledger.csv';a.click();URL.revokeObjectURL(a.href);}
 };
 
-function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.2.5 Stable 轻量自动择优版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
+function bind(){try{initDom();if(!D.scanBtn||!D.backtestBtn||!D.dataInput)throw new Error('核心按钮或输入框未加载');D.scanBtn.onclick=function(){App.scan();};D.backtestBtn.onclick=function(){App.backtest();};D.copyBtn.onclick=function(){App.copy();};D.exportCsvBtn.onclick=function(){App.exportCSV();};tick('<span class="text-emerald-400">&gt; V22.2.8 Stable 600三期计划显示版初始化完成</span> | 输入开奖号后点击回测/扫描');}catch(e){alert('初始化失败：'+e.message);console.error(e);}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 
 })();
